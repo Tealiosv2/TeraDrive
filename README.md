@@ -6,7 +6,9 @@ docker exec -it TeraDrive psql -U postgres<br>
 CREATE DATABASE teradrive;<br>
 
 database setup:<br>
-run create_database.py in database_stuff
+RUN:<br>
+initialize_database.py<br>
+in package database_stuff
 
 
 
