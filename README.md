@@ -7,7 +7,7 @@ CREATE DATABASE teradrive;<br>
 
 database setup:<br>
 RUN:<br>
-initialize_database.py<br>
+<b>initialize_database.py<b><br>
 in package database_stuff
 
 
