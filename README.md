@@ -5,6 +5,8 @@ docker run --name TeraDrive -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:543
 docker exec -it TeraDrive psql -U postgres<br>
 CREATE DATABASE teradrive;<br>
 
+database setup:<br>
+run create_database.py in database_stuff
 
 
 
