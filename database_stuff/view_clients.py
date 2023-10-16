@@ -17,7 +17,7 @@ try:
     cursor = connection.cursor()
 
     # Execute the SQL query to select all rows from the "clients" table
-    cursor.execute("SELECT * FROM clients")
+    cursor.execute("SELECT * FROM clients ORDER BY client_id ASC")
 
     # Fetch and print the results
     rows = cursor.fetchall()

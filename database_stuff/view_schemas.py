@@ -10,7 +10,7 @@ db_params = {
 }
 
 # Specify the table for which you want to view the schema
-table_to_view = "clients"
+table_to_view = "cases"
 
 try:
     # Connect to the PostgreSQL database
