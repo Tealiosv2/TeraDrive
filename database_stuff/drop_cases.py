@@ -9,8 +9,8 @@ db_params = {
     "database": "teradrive"  # Replace with your database name (teradrive)
 }
 
-# Specify the table for which you want to view the schema
-table_to_view = "clients"
+# Specify the table to drop
+table_to_drop = "cases"
 
 try:
     # Connect to the PostgreSQL database
@@ -19,22 +19,17 @@ try:
     # Create a cursor object to execute SQL queries
     cursor = connection.cursor()
 
-    # Execute the SQL query to view the schema of the table
-    view_table_schema_query = f"""
-        SELECT column_name, data_type, is_nullable
-        FROM information_schema.columns
-        WHERE table_name = '{table_to_view}';
-    """
-    cursor.execute(view_table_schema_query)
+    # Execute the SQL query to drop the table
+    drop_table_query = f"DROP TABLE IF EXISTS {table_to_drop};"
+    cursor.execute(drop_table_query)
 
-    # Fetch and print the results
-    table_schema = cursor.fetchall()
-    for column in table_schema:
-        print(f"Column: {column[0]}, Data Type: {column[1]}, Nullable: {column[2]}")
+    # Commit the changes to the database
+    connection.commit()
 
     # Close the cursor and the database connection
     cursor.close()
     connection.close()
 
+    print(f"Table '{table_to_drop}' dropped (if it existed).")
 except (Exception, psycopg2.Error) as error:
-    print(f"Error viewing schema of '{table_to_view}' table:", error)
+    print(f"Error dropping '{table_to_drop}' table:", error)
