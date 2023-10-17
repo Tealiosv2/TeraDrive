@@ -15,6 +15,7 @@ create_clients_table_query = """
         client_id serial PRIMARY KEY,
         client_email VARCHAR (255),
         client_name VARCHAR (255),
+        client_phone INT,
         client_cases INT[]
     );
 """

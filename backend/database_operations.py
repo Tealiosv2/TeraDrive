@@ -49,3 +49,17 @@ def get_cases():
 
     conn.close()
     return cases
+
+def create_case(client_id, case_status, case_notes):
+    conn = connect()
+    cursor = conn.cursor()
+
+    # Execute the SQL query to insert a new case
+    query = f"""
+        INSERT INTO cases (client_id, case_status, case_notes)
+        VALUES ({client_id}, '{case_status}', '{case_notes}')
+        """
+    cursor.execute(query)
+    conn.commit()
+
+    conn.close()

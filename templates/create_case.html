@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Case</title>
+</head>
+<body>
+    <h1>Create Case</h1>
+    <form action="/create-case" method="POST">
+        <label for="client_name">Client Name:</label>
+        <select name="client_id" id="client_id">
+            {% for client in clients %}
+                <option value="{{ client.client_id }}">{{ client.client_name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="case_status">Case Status:</label>
+        <input type="text" name="case_status" id="case_status" required>
+        <br>
+        <label for="case_notes">Case Notes:</label>
+        <textarea name="case_notes" id="case_notes" rows="4" required></textarea>
+        <br>
+        <input type="submit" value="Create Case">
+    </form>
+    <br>
+    <a href="/">Back to Home</a>
+</body>
+</html>
