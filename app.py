@@ -19,7 +19,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/clients')
-def get_cases():
+def get_clients():
     clients_records = database_operations.get_clients()
     return render_template('clients.html', records=clients_records)
 
@@ -33,9 +33,17 @@ def get_client_cases():
 
 @app.route('/cases')
 def display_cases():
-    cases = database_operations.get_cases()
+    cases = database_operations.get_all_cases()
 
     return render_template('cases.html', cases=cases)
+
+@app.route('/case_details')
+def display_case_details():
+    case_id = request.args.get('case_id')
+
+    case_details = database_operations.get_case_details(case_id)
+
+    return render_template('case_details.html', case_details=case_details)
 
 if __name__ == '__main__':
     app.run(debug=True)

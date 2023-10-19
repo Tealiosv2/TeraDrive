@@ -14,16 +14,24 @@
                     <th>Case ID</th>
                     <th>Client Email</th>
                     <th>Case Status</th>
-                    <th>Case Notes</th>
+                    <th>Work Progress</th>
+                    <th>Quote</th>
+                    <th>Notes</th>
+                    <th>Details</th>
                 </tr>
             </thead>
             <tbody>
                 {% for case in cases %}
                 <tr>
                     <td>{{ case[0] }}</td>
-                    <td>{{ case[3] }}</td>
                     <td>{{ case[1] }}</td>
                     <td>{{ case[2] }}</td>
+                    <td>{{ case[3] }}</td>
+                    <td>{{ case[4] }}</td>
+                    <td>{{ case[5] }}</td>
+                    <td>
+                        <a href="{{ url_for('display_case_details', case_id=case[0]) }}" class="btn btn-primary">View Details</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

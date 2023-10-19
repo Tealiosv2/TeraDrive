@@ -35,6 +35,7 @@ def get_clients():
     connection.close()
     return records
 
+
 def get_client_cases(client_email):
     connection = connect()
     cursor = connection.cursor()
@@ -59,15 +60,17 @@ def get_all_cases():
 
     # Execute the SQL query to retrieve case information with client email
     query = """
-        SELECT c.case_email, c.case_status, c.case_progress, cl.client_email
-        FROM cases c
-        JOIN clients cl ON c.client_email = cl.client_email
+        SELECT case_id, client_email case_status, case_work_progress, case_quote, case_notes FROM cases;
         """
     cursor.execute(query)
     cases = cursor.fetchall()
 
     conn.close()
     return cases
+
+
+def get_case_details(case_id):
+    return 0
 
 
 def create_case(client_id, case_status, case_notes):
