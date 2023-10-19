@@ -24,6 +24,7 @@ create_cases_table_query = """
     CREATE TABLE IF NOT EXISTS cases (
         case_id SERIAL PRIMARY KEY NOT NULL ,
         client_email VARCHAR NOT NULL,
+        case_drop_off VARCHAR (255),
         case_status VARCHAR (255),
         case_work_progress VARCHAR (255),
         case_malfunction VARCHAR (255),

@@ -2,22 +2,22 @@ import psycopg2
 import random
 
 names = [
-        "John Doe",
-        "Jane Smith",
-        "Alice Johnson",
-        "Bob Wilson",
-        "Susan White",
-        "David Brown",
-        "Emily Jackson",
-        "Sam Roberts",
-        "Lisa Davis",
-        "Michael Thomas",
-        "Olivia Harris",
-        "William Martin",
-        "Sophia Lee",
-        "James Anderson",
-        "Oliver Wright"
-    ]
+    "John Doe",
+    "Jane Smith",
+    "Alice Johnson",
+    "Bob Wilson",
+    "Susan White",
+    "David Brown",
+    "Emily Jackson",
+    "Sam Roberts",
+    "Lisa Davis",
+    "Michael Thomas",
+    "Olivia Harris",
+    "William Martin",
+    "Sophia Lee",
+    "James Anderson",
+    "Oliver Wright"
+]
 emails = [
     "john.doe@example.com",
     "jane.smith@gmail.com",
@@ -62,6 +62,7 @@ db_params = {
     "database": "teradrive"  # Replace with your database name (teradrive)
 }
 
+
 def rand_quote():
     random_number = random.randint(100, 2000)
     rounded_number = round(random_number / 50) * 50
@@ -75,10 +76,8 @@ try:
     # Create a cursor object to execute SQL queries
     cursor = connection.cursor()
 
-
-
     # Sample data for the 'clients' table
-    clients_data  = [(email, name, phone_number) for name, email, phone_number in zip(names, emails, phone_numbers)]
+    clients_data = [(email, name, phone_number) for name, email, phone_number in zip(names, emails, phone_numbers)]
 
     # Insert sample data into the 'clients' table
     insert_clients_query = """
@@ -98,7 +97,9 @@ try:
 
     # Sample data for the 'cases' table
     for i in range(25):
-        case = ( random.choice(emails), random.choice(case_statuses), random.choice(case_progresses),
+        case = (random.choice(emails),
+                random.choice(["Vancouver", "Burnaby", "Langley"]),
+                random.choice(case_statuses), random.choice(case_progresses),
                 random.choice(["Bad heads", "Electrical", "Bad sectors", "Deleted files", "Water damage", "Other"]),
                 rand_quote(), random.choice(["HDD", "SSD", "Flash Drive", "SD Card", "Other", "Laptop"]),
                 "None",
@@ -113,11 +114,11 @@ try:
         cases_data.append(case)
 
     insert_cases_query = """
-        INSERT INTO cases ( client_email, case_status, case_work_progress,
+        INSERT INTO cases ( client_email, case_drop_off, case_status, case_work_progress,
         case_malfunction, case_quote, case_device_type, case_important_folders,
         case_size, case_permissions, case_date_recieved, case_date_quote_approved,
         case_completed_date, case_date_finalized, case_referred_by, case_notes)
-        VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+        VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
     """
 
     cursor.executemany(insert_cases_query, cases_data)
