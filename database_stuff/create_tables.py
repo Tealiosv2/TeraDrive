@@ -12,22 +12,33 @@ db_params = {
 # SQL query to create the "clients" table (if it doesn't exist)
 create_clients_table_query = """
     CREATE TABLE IF NOT EXISTS clients (
-        client_id serial PRIMARY KEY,
-        client_email VARCHAR (255),
-        client_name VARCHAR (255),
-        client_phone INT,
-        client_cases INT[]
+        client_email VARCHAR(255) PRIMARY KEY,
+        client_id SERIAL,
+        client_name VARCHAR(255),
+        client_phone VARCHAR(255)
     );
 """
 
 # SQL query to create the "cases" table (if it doesn't exist)
 create_cases_table_query = """
-    CREATE TABLE cases (
-        case_id serial PRIMARY KEY,
-        client_id INT,
+    CREATE TABLE IF NOT EXISTS cases (
+        case_id SERIAL PRIMARY KEY NOT NULL ,
+        client_email VARCHAR NOT NULL,
         case_status VARCHAR (255),
+        case_work_progress VARCHAR (255),
+        case_malfunction VARCHAR (255),
+        case_quote INT,
+        case_device_type VARCHAR (255),
+        case_important_folders VARCHAR (255),
+        case_size VARCHAR (255),
+        case_permissions BOOLEAN,
+        case_date_recieved DATE,
+        case_date_quote_approved DATE,
+        case_completed_date DATE,
+        case_date_finalized DATE,
+        case_referred_by VARCHAR (255),
         case_notes TEXT,
-        FOREIGN KEY (client_id) REFERENCES clients (client_id)
+        FOREIGN KEY (client_email) REFERENCES clients (client_email)
     );
 """
 
