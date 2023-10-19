@@ -1,40 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Client Display</title>
+    <title>Client Cases Information</title>
     <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container">
-        <h1 class="mt-5">Clients from the Database</h1>
+        <h1 class="mt-5">List of {{ client_case_data[0][0] }}'s Cases</h1>
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
                 <tr>
-                    <th>Client ID</th>
-                    <th>Client Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>View Cases</th>
-
+                    <th>Case ID</th>
+                    <th>Case Status</th>
+                    <th>Work Progress</th>
+                    <th>Quote</th>
                 </tr>
             </thead>
             <tbody>
-                {% for record in records %}
+                {% for client_case in client_case_data[1:] %}
                 <tr>
-                    <td>{{ record['client_id'] }}</td>
-                    <td>{{ record['client_email'] }}</td>
-                    <td>{{ record['client_name'] }}</td>
-                    <td>{{ record['client_phone'] }}</td>
-                    <td>
-                        <a href="{{ url_for('get_client_cases', client_email=record['client_email']) }}" class="btn btn-primary">View Cases</a>
-                    </td>
+                    <td>{{ client_case[0] }}</td>
+                    <td>{{ client_case[1] }}</td>
+                    <td>{{ client_case[2] }}</td>
+                    <td>{{ client_case[3] }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         <div>
-            <p><a href="/" class="btn btn-primary">Back</a></p>
+            <p><a href="/clients" class="btn btn-primary">Back</a></p>
         </div>
     </div>
     <!-- Add Bootstrap JavaScript (optional) -->

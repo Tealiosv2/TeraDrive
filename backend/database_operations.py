@@ -26,10 +26,10 @@ def get_clients():
     records = []
     for row in cursor.fetchall():
         record = {
-            'client_id': row[0],
-            'client_email': row[1],
+            'client_email': row[0],
+            'client_id': row[1],
             'client_name': row[2],
-            'client_cases': row[3]
+            'client_phone': row[3]
         }
         records.append(record)
     connection.close()
@@ -42,6 +42,12 @@ def get_client_cases(client_email):
                    " FROM cases WHERE cases.client_email = '" + client_email + "' ORDER BY case_id ASC;"
     cursor.execute(select_query)
     records = cursor.fetchall()
+
+    select_client_name = "SELECT client_name FROM clients WHERE clients.client_email = '" + client_email + "';"
+    cursor.execute(select_client_name)
+    client_name = cursor.fetchone()
+
+    records.insert(0, client_name)
 
     connection.close()
     return records

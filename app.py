@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import psycopg2
 from backend import database_operations
 
@@ -24,9 +24,11 @@ def get_cases():
     return render_template('clients.html', records=clients_records)
 
 @app.route('/client_cases')
-def get_client_cases(client_email):
-    client_cases = database_operations.get_client_cases(client_email)
-    return render_template('client_cases.html', client_cases=client_cases)
+def get_client_cases():
+    client_email = request.args.get('client_email')
+
+    client_case_data = database_operations.get_client_cases(client_email)
+    return render_template('client_cases.html', client_case_data=client_case_data)
 
 
 @app.route('/cases')
