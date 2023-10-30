@@ -3,18 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to TeraDrive</title>
-    <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/templates/css/register.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Login Page</title>
+
 </head>
 <body>
-    <div class="container text-center mt-5">
-        <h1>Welcome to TeraDrive</h1>
-        <p>Explore our services:</p>
-        <a href="/clients" class="btn btn-primary mr-3">Clients</a>
-        <a href="/cases" class="btn btn-primary">Cases</a>
+    <div class="split-screen">
+        <div class="left">
+            <div id="header">
+                <div id="img-and-title">
+                    <img id="logo-img" src="./images/teradrive-logo.png" alt="logo">
+                    <h1 class="text-center">TERADRIVE</h1>
+                </div>
+            </div>
+            <form id="login-form">
+                <h6>Sign up to access your client dashboard and get direct access to your case updates</h6>
+                <div class="input-container name">
+                    <label for="name">Name</label>
+                    <input id="name" class="input-field" type="text" name="name">
+                </div>
+                
+                <div class="input-container email">
+                    <label for="email">Email</label>
+                    <input id="email" class="input-field" type="text" name="email">
+                </div>
+
+                <div class="password-container input-container password">
+                    <label for="password">Password</label>
+                    <input id="password" class="input-field" type="password" name="password">
+                    <i id="show-password" class="fa-solid fa-eye"></i>
+                </div>
+                <div id="create-section">
+                    <p>By clicking, you agree to&nbsp<a class="anchor-link" href="./login.html">Terms of use</a> and&nbsp<a class="anchor-link" href="">Privacy Policy.</a></p>
+                    <button id="create-button" type="submit" class="btn btn-primary">Create my account</button>
+                    <p id="sign-up-paragraph">Already have an account?&nbsp<a class="anchor-link" href="./login.html">Log in</a></p>
+                </div>
+            </form>
+        </div>
+        <div class="right">
+            <!--put image in here-->
+            <!--Bolded H2-->
+
+            <img id="teradrive-img-1" src="./images/Teradrive-login-2.png" alt="">
+
+            <div id="right-text">
+                <h2><strong>Nothing is Lost Forever</strong></h2>
+                <h4>We specialize in Data recovery services in Canada</h4>
+            </div>
+
+        </div>
     </div>
-    <!-- Add Bootstrap JavaScript (optional) -->
+    <script src="./js/register.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
