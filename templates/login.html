@@ -1,67 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/templates/css/login.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Login Page</title>
-
+    <title>Login</title>
 </head>
 <body>
-    <div class="split-screen">
-        <div class="left">
-            <div id="header">
-                <div id="img-and-title">
-                    <img id="logo-img" src="./images/teradrive-logo.png" alt="logo">
-                    <h1 class="text-center">TERADRIVE</h1>
-                </div>
-                <h6 id="welcome-description">Welcome to your dashboard</h6>
-            </div>
-            <form id="login-form">
-                <div class="input-container email">
-                    <label for="email">Email</label>
-                    <input id="email" class="input-field" type="text" name="email">
-                </div>
-
-                <div class="password-container input-container password">
-                    <label for="password">Password</label>
-                    <input id="password" class="input-field" type="password" name="password">
-                    <i id="show-password" class="fa-solid fa-eye"></i>
-                </div>
-                <div class="input-container">
-                        <div id="remember-and-forgot">
-                            <div>
-                                <input type="checkbox">
-                                <span class="checkmark">Remember Me</span>
-                            </div>
-                            <a id="forgot-password" href="./register.html">Forgot Password</a>
-                        </div>
-                </div>
-
-                    <button id="login-button" type="submit" class="btn btn-primary">Login</button>
-                    <button id="login-link-button" type="submit" class="btn btn-primary">Login With Magic Link</button>
-                    <p id="sign-up-paragraph">Don't have an account? <a id="sign-up-button" href="./register.html">Sign Up</a></p>
-
-            </form>
-        </div>
-        <div class="right">
-            <!--put image in here-->
-            <!--Bolded H2-->
-
-            <img id="teradrive-img-1" src="./images/Teradrive-login-2.png" alt="">
-
-            <div id="right-text">
-                <h2><strong>Nothing is Lost Forever</strong></h2>
-                <h5>We specialize in Data recovery services in Canada</h5>
-            </div>
-
-        </div>
-    </div>
-    <script src="./js/login.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <h1>Login</h1>
+    <form method="POST" action="/login">
+        <label for="username">Username:</label>
+        <input type="text" name="username" required><br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" required><br>
+        <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="/register">Register</a></p>
 </body>
 </html>

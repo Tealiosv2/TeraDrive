@@ -18,6 +18,60 @@ def connect():
         print("Error connecting to the database:", e)
 
 
+def create_user(username, email, password_hash):
+    connection = connect()
+    cursor = connection.cursor()
+
+    # Use a SQL query to insert a new user into the "users" table
+    insert_query = """
+    INSERT INTO users (username, email, password_hash, phone)
+    VALUES (%s, %s, %s, %s)
+    RETURNING id;
+    """
+
+    try:
+        cursor.execute(insert_query, (username, email, password_hash))
+        user_id = cursor.fetchone()[0]  # Get the ID of the newly created user
+        connection.commit()
+        return user_id
+    except psycopg2.Error as e:
+        print("Error creating a new user:", e)
+        return None
+    finally:
+        connection.close()
+
+
+def get_user_by_id(user_id):
+    select_query = "SELECT id, username, role FROM users WHERE id = %s"
+    user = None
+
+    try:
+        with psycopg2.connect('postgresql://postgres:mysecretpassword@localhost:5432/teradrive') as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(select_query, (user_id,))
+                user = cursor.fetchone()
+    except psycopg2.Error as e:
+        print("Error retrieving user by ID:", e)
+
+    return user  # Returns the user's information if found, or None if not found
+
+
+def get_user_by_username(username):
+    select_query = "SELECT id, username, password_hash, role FROM users WHERE username = %s"
+    user = None
+
+    try:
+        with psycopg2.connect('postgresql://postgres:mysecretpassword@localhost:5432/teradrive') as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(select_query, (username,))
+                user = cursor.fetchone()
+    except psycopg2.Error as e:
+        print("Error retrieving user by username:", e)
+
+    return user
+
+
+
 def get_clients():
     connection = connect()
     cursor = connection.cursor()
