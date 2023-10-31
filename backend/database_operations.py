@@ -18,7 +18,7 @@ def connect():
         print("Error connecting to the database:", e)
 
 
-def create_user(username, email, password_hash):
+def create_user(username, email, password_hash, phone):
     connection = connect()
     cursor = connection.cursor()
 
@@ -30,7 +30,7 @@ def create_user(username, email, password_hash):
     """
 
     try:
-        cursor.execute(insert_query, (username, email, password_hash))
+        cursor.execute(insert_query, (username, email, password_hash, phone))
         user_id = cursor.fetchone()[0]  # Get the ID of the newly created user
         connection.commit()
         return user_id

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from backend import database_operations
 
@@ -9,10 +9,6 @@ app.secret_key = 'your_secret_key'
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-
-USER_ROLE_ADMIN = 'admin'
-USER_ROLE_USER = 'user'
-
 
 class User(UserMixin):
     def __init__(self, id, username, role):
@@ -31,21 +27,29 @@ def load_user(user_id):
     else:
         return None
 
-
+registered_users = {}
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
         email = request.form['email']
+        phone = request.form['phone']
         password = request.form['password']
-        password_hash = generate_password_hash(password)
-        user_id = database_operations.create_user(username, email, password_hash)
-        if user_id:
-            flash('Registration successful. Please log in.', 'success')
+
+        # Perform validation and user registration (replace with your own logic)
+        if username and email and phone and password:
+            registered_users[username] = {
+                'email': email,
+                'phone': phone,
+                'password': password
+            }
+            database_operations.create_user(username, email, generate_password_hash(password), phone)
+            flash('Registration successful. You can now log in.', 'success')
             return redirect(url_for('login'))
-        else:
-            flash('Registration failed. User already exists.', 'error')
+
+        flash('Registration failed. Please check your input.', 'error')
+
     return render_template('register.html')
 
 
@@ -70,6 +74,10 @@ def login():
 
     return render_template('login.html')
 
+@app.route('/user_dashboard')
+@login_required
+def user_dashboard():
+    return render_template('user_dashboard.html')
 
 @app.route('/logout')
 @login_required
@@ -81,6 +89,14 @@ def logout():
 
 @app.route('/')
 def index():
+    return render_template('index.html')
+
+@app.route('/admin_dashboard')
+@login_required
+def admin_dashboard():
+    if not current_user.role:
+        flash('Access Denied: You are not an admin.', 'error')
+        return redirect(url_for('user_dashboard'))
     return render_template('admin_dashboard.html')
 
 
