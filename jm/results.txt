@@ -1,0 +1,16 @@
+Name            Case Number     Phone           Email                     Drop off        Case Status     Work Progress  
+========================================================================================================================
+Stan            None            6048611999      Stan@hotmail.com          None            Completed       Invoice sent   
+Jayme           None            6044019459      info@jayme                None            Confirmed       None           
+Compu           None            None            None                      None            Completed       File list sent 
+Dennis          None            6042588799      denis@365.ca              None            Unrecovable     None           
+Victor          None            None            victora@gmail.com         Langley         Confirmed       In progress    
+Hak             None            6043558939      dhp@gmail.com             Burnaby         Completed       Paid           
+Den             None            7788670788      da@gmail.com              Burnaby         Confirmed       In progress    
+Manny           None            None            man@twave.ca              None            Confirmed       In progress    
+Nilesh          None            60478077        nilesh@hotmail.com        None            Confirmed       None           
+Greg            None            2503205555      greg@realities.com        Vancouver       Confirmed       None           
+Crackerz        None            None            None                      None            Confirmed       None           
+Andy            None            6045432488      andre@hotmail.ca          None            Confirmed       In progress    
+Alaini          None            6049969076      alai@hotmail.com          None            Confirmed       In progress    
+Emmanuel        None            6047041566      thillj@gmail.com          None            Confirmed       None           
