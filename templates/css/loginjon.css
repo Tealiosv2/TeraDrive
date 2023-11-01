@@ -13,11 +13,12 @@
     display: flex;
     background-color: rgb(0, 32, 84);
     -webkit-text-fill-color: white;
-    width: 140%;
+    width: 80vw;
     height: 100vh;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    padding-left: 70px;
     }
 
 .input-field {
@@ -48,22 +49,27 @@
     font-size: 20px;
     position: relative;
     bottom: 32%;
-    left: 90%;
+    left: 88%;
     color: rgb(0, 32, 84);
     -webkit-text-fill-color: rgb(0, 32, 84);
+}
+
+#sign-up-button {
+    text-decoration: underline;
+    color: white;
 }
 
 #login-form {
     display: flex;
     flex-direction: column;
-    width: 85%;
+    width: 50%;
     row-gap: 20px;
-    padding-left: 60px;
-    padding-bottom: 120px;
 }    
 
 #sign-up-paragraph {
-    padding-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20px;
 }
 
 #img-and-title {
@@ -78,15 +84,13 @@ h1 {
 #header {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top: 15px;
-    left: 20px;
+    padding-top: 20px;
 }
 
 #logo-img {
     padding-right: 10px;
-    padding-top: 5px;
-    height: 3.8vw;
+    padding-bottom: 22px;
+    height: 110%;
 }
 
 #welcome-description{
@@ -99,25 +103,24 @@ h1 {
     border-radius: 8px;
 }
 
-#create-button {
-    width: 50%;
-    border: none;
+#login-button {
+    border: 2.5px solid black;
+    border-color: rgb(132, 209, 239);
+    background-color: rgb(0, 32, 84);
+}
+
+#login-button:hover {
+    background-color: rgb(132, 209, 239);
+}
+
+#login-link-button {
     background-color: rgb(37, 150, 190);
     -webkit-text-fill-color: rgb(0, 32, 84);
 }
 
-#create-button:hover {
+#login-link-button:hover {
     background-color: rgb(0, 32, 84);
     -webkit-text-fill-color: rgb(132, 209, 239);
-}
-
-.anchor-link {
-    text-decoration: underline;
-    color: white;
-}
-
-#create-section {
-    
 }
 
 
@@ -135,11 +138,16 @@ h1 {
 
 
 #teradrive-img-1 {
-    height: 40%;
-    max-width: 90%;
+    height: 60%;
+    max-width: 65%;
+    padding-bottom: 20px;
     padding-right: 30px;
 }
 
 #right-text {
     font-size: 1.5em;
+    padding-top: 20px;
 }
+
+/* If media query, make one below 1200px width 
+   Height is more or less fine, below 500 or 600px is unlikely.*/
