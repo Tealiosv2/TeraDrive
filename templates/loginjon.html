@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/templates/css/loginjon.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/loginjon.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Login Page</title>
 
@@ -14,12 +14,12 @@
         <div class="left">
             <div id="header">
                 <div id="img-and-title">
-                    <img id="logo-img" src="./images/teradrive-logo.png" alt="logo">
+                    <img id="logo-img" src="{{ url_for('static', filename='images/teradrive-logo.png') }}" alt="logo">
                     <h1 class="text-center">TERADRIVE</h1>
                 </div>
                 <h6 id="welcome-description">Welcome to your dashboard</h6>
             </div>
-            <form id="login-form" method="post">
+            <form id="login-form" method="post action="/login"">
                 <div class="input-container email">
                     <label for="email">Email</label>
                     <input id="email" class="input-field" type="text" name="email">
@@ -50,7 +50,7 @@
             <!--put image in here-->
             <!--Bolded H2-->
 
-            <img id="teradrive-img-1" src="./images/Teradrive-login-2.png" alt="">
+            <img id="teradrive-img-1" src="{{ url_for('static', filename='images/teradrive-login-2.png') }}" alt="">
 
             <div id="right-text">
                 <h2><strong>Nothing is Lost Forever</strong></h2>
@@ -59,7 +59,7 @@
 
         </div>
     </div>
-    <script src="./js/loginjon.js"></script>
+    <script src="{{ url_for('static', filename='js/loginjon.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
