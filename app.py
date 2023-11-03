@@ -50,7 +50,7 @@ def register():
 
         flash('Registration failed. Please check your input.', 'error')
 
-    return render_template('registerjon.html')
+    return render_template('register.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -72,7 +72,7 @@ def login():
         else:
             flash('Login failed. Please check your credentials.', 'error')
 
-    return render_template('loginjon.html')
+    return render_template('login.html')
 
 @app.route('/user_dashboard')
 @login_required
