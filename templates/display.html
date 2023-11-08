@@ -90,23 +90,62 @@
               </div>
               <div id="email-number">
                 <div class="top-nav-email-number">
-                  <img src="../static/images/mail-icon.png" alt="email" width="25px" height="25px">
+                  <img src="../static/images/mail-icon.png" alt="email" width="20px" height="20px">
                     ClientEmail@Email.com
                 </div>
                 <div class="top-nav-email-number">
-                  <img src="../static/images/phone-icon.png" alt="phone" width="25px" height="26px">
+                  <img src="../static/images/phone-icon.png" alt="phone" width="20px" height="21px">
                     77811122234        
                 </div>
               </div>
             </div>
             <!-- messages, only add if necessary-->
             <div id="messages">
-              <h6>messages</h6>
+              <img class="message-icon" src="../static/images/messages-icon.png" alt="messages-icon">
+              <img class="message-icon" src="../static/images/notification-icon.png" alt="notifications-icon">
+              <button id="new-message-button" type="button" class="btn btn-primary">+ New Message</button>
             </div>
           </div>
+
+          <!-- cases and case details -->
+
+          <div id="case-nav">
+            <h4>Cases</h4>
+            <div class="dropdown show cases-dropdown">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown link
+              </a>
+            
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+          </div>
+
+          <div id="case-summary-nav">
+            <h4>Case Summary</h4>
+          </div>
+
+          <div id="case-details-nav">
+            <h4>Case Details</h4>
+            <div class="dropdown show cases-dropdown">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown link
+              </a>
+            
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+          </div>
+
         </div>
     </div>
-    <script src="./js/displayjon.js"></script>
+    <script src="./js/display.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

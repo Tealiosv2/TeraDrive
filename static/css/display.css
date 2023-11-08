@@ -24,14 +24,12 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 88%;
+    height: 83%;
 }
 
-#left {
-    display: flex;
-    height: 100vh;
+.left {
     -webkit-text-fill-color: #ccced2;
-    width: 20vw;
+
 }
 
 .vl {
@@ -74,10 +72,9 @@ a:hover {
 
 /* right side */
 
-#right {
+.right {
     height: 100vh;
     width: 100%;
-    background-color: #f5f5f5;
 }
 
 #names {
@@ -87,9 +84,10 @@ a:hover {
 
 #top-nav {
     display: flex;
+    flex-direction: row;
     padding-top: 20px;
     padding-left: 40px;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 
 #email-number {
@@ -100,4 +98,49 @@ a:hover {
 .top-nav-email-number {
     display: flex;
     gap: 7px;
+}
+
+#messages {
+    display: flex;
+    padding-right: 5%;
+    gap: 15px;
+}
+
+#new-message-button {
+    background-color: #072258;
+    height: 65%;
+}
+
+.message-icon {
+    margin-top: 10px;
+    width: 25px;
+    height: 25px;
+}
+
+#case-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 40px;
+    padding-top: 40px;
+}
+
+.cases-dropdown {
+    padding-right: 60px;
+}
+
+#case-summary-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 40px;
+    padding-top: 40px;
+}
+
+#case-details-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 40px;
+    padding-top: 40px;
 }
