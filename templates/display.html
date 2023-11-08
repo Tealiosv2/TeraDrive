@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/display.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Login Page</title>
+
+</head>
+<body>
+
+  <div class="navbar">
+
+  </div>
+    <!-- Split Screen -->
+    <div class="split-screen">
+        <div class="left">
+            <div id="header">
+                <img id="logo-img" src="../static/images/teradrive-logo-3.png" alt="logo">
+                <h1 id="title">TERADRIVE</h1>
+            </div>
+            <!-- Side nav -->
+            <div id="side-nav">
+              <div class="d-flex flex-column flex-shrink-0 p-3 " style="width: 280px;">
+                  <ul class="nav nav-pills flex-column nav-items">
+                    <li>
+                      <a href="#" class="top-side-nav nav-link text-blue">
+                        <img src="../static/images/menu-icon.png" alt="dashboard-icon">                        
+                        Dashboard
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" class="top-side-nav nav-link text-blue">
+                        <img src="../static/images/cases-icon.png" alt="cases-icon">
+                        Cases
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" class="top-side-nav nav-link text-blue">
+                        <img src="../static/images/case-details-icon.png" alt="details-icon">
+                        Case Details
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <!-- Second half of side nav with settings & sign out -->
+                  <hr id="side-nav-divider">
+                  <ul class="nav nav-pills flex-column nav-items">
+                    <li>
+                      <a href="#" class="nav-link text-blue bottom-side-nav">
+                        <img src="../static/images/settings-icon.png" alt="dashboard-icon">                        
+                        Settings
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" class="nav-link text-blue bottom-side-nav">
+                        <img src="../static/images/sign-out-icon.png" alt="cases-icon">
+                        Sign Out
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" class="nav-link text-blue bottom-side-nav">
+                        <img src="../static/images/help-icon.png" alt="details-icon">
+                        Help
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            <!-- Side nav end -->
+        </div>
+
+        
+        <!-- vertical rule -->
+        <!-- This is inside .split-screen, but not inside 
+        left or right -->
+        <div class="vl">
+        </div>
+
+        <div class="right">
+          <div id="top-nav">
+            <!-- name, email, number-->
+            <div id="name-email-number">
+              <div id="names">
+                <h4 id="first-name">First Name</h4>
+                <h4 id="last-name">Last Name</h4>
+              </div>
+              <div id="email-number">
+                <div class="top-nav-email-number">
+                  <img src="../static/images/mail-icon.png" alt="email" width="25px" height="25px">
+                    ClientEmail@Email.com
+                </div>
+                <div class="top-nav-email-number">
+                  <img src="../static/images/phone-icon.png" alt="phone" width="25px" height="26px">
+                    77811122234        
+                </div>
+              </div>
+            </div>
+            <!-- messages, only add if necessary-->
+            <div id="messages">
+              <h6>messages</h6>
+            </div>
+          </div>
+        </div>
+    </div>
+    <script src="./js/displayjon.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

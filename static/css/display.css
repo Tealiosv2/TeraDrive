@@ -1,0 +1,103 @@
+.split-screen {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+/* left side */
+
+#header {
+    display: flex;
+    flex-direction: row;
+    -webkit-text-fill-color: rgba(7,34,88,255);
+    padding-top: 10px;
+}
+
+#logo-img {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 58px;
+}
+
+#side-nav {
+    -webkit-text-fill-color: #ccced2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 88%;
+}
+
+#left {
+    display: flex;
+    height: 100vh;
+    -webkit-text-fill-color: #ccced2;
+    width: 20vw;
+}
+
+.vl {
+    border-left: 0.1vw solid #ccced2;
+    height: 100vh;
+    position: relative;
+    margin-left: 20px;
+    margin-top: -20px;
+    padding: 10px;
+}
+
+.text-blue {
+    -webkit-text-fill-color: rgb(139,140,140);
+    font-size: medium;
+}
+
+a:hover {
+    background-color: #072258;
+    -webkit-text-fill-color: white;
+}
+
+.nav-items {
+    padding-left: 65px;
+    padding-top: 20px;
+}
+
+#side-nav-divider {
+    margin-left: 60px;
+    width: 60%;
+    background-color: #ccced2;
+    /* margin-top: 300px; */
+}
+
+.bottom-side-nav {
+    margin-left: 12px;
+}
+
+
+
+
+/* right side */
+
+#right {
+    height: 100vh;
+    width: 100%;
+    background-color: #f5f5f5;
+}
+
+#names {
+    display: flex;
+    gap: 7px;
+}
+
+#top-nav {
+    display: flex;
+    padding-top: 20px;
+    padding-left: 40px;
+    justify-content: space-evenly;
+}
+
+#email-number {
+    display: flex;
+    gap: 25px;
+}
+
+.top-nav-email-number {
+    display: flex;
+    gap: 7px;
+}
