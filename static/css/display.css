@@ -67,6 +67,11 @@ a:hover {
     margin-left: 12px;
 }
 
+.case-table-textfield {
+    width: 90%;
+    margin-left: 60px;
+}
+
 
 
 
@@ -143,4 +148,8 @@ a:hover {
     justify-content: space-between;
     padding-left: 40px;
     padding-top: 40px;
+}
+
+.dropdown-toggle {
+    -webkit-text-fill-color: rgb(139,140,140);
 }

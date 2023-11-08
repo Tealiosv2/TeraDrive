@@ -109,11 +109,12 @@
 
           <!-- cases and case details -->
 
+          <div id="cases">
           <div id="case-nav">
             <h4>Cases</h4>
             <div class="dropdown show cases-dropdown">
-              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown link
+              <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                All-Time
               </a>
             
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -123,16 +124,48 @@
               </div>
             </div>
           </div>
+          <table class="table table-striped table-bordered case-table-textfield">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Case ID</th>
+                    <th>Client Email</th>
+                    <th>Case Status</th>
+                    <th>Work Progress</th>
+                    <th>Quote</th>
+                    <th>Notes</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for case in cases %}
+                <tr>
+                    <td>{{ case[0] }}</td>
+                    <td>{{ case[1] }}</td>
+                    <td>{{ case[2] }}</td>
+                    <td>{{ case[3] }}</td>
+                    <td>{{ case[4] }}</td>
+                    <td>{{ case[5] }}</td>
+                    <td>
+                        <a href="{{ url_for('display_case_details', case_id=case[0]) }}" class="btn btn-primary">View Details</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+          </div>
 
-          <div id="case-summary-nav">
-            <h4>Case Summary</h4>
+          <div id="case-summary">
+            <div id="case-summary-nav">
+              <h4>Case Summary</h4>
+            </div>  
+            <textarea class="case-table-textfield" name="summary" id="" cols="100" rows="10"></textarea>
           </div>
 
           <div id="case-details-nav">
             <h4>Case Details</h4>
             <div class="dropdown show cases-dropdown">
-              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown link
+              <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                All-Time
               </a>
             
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -143,6 +176,7 @@
             </div>
           </div>
 
+          
         </div>
     </div>
     <script src="./js/display.js"></script>
