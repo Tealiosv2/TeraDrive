@@ -42,7 +42,7 @@ def create_user(username, email, password_hash, phone):
 
 
 def get_user_by_id(user_id):
-    select_query = "SELECT id, username, role FROM users WHERE id = %s"
+    select_query = "SELECT id, username, role, email FROM users WHERE id = %s"
     user = None
 
     try:
@@ -69,7 +69,6 @@ def get_user_by_username(username):
         print("Error retrieving user by username:", e)
 
     return user
-
 
 
 def get_clients():
@@ -124,7 +123,33 @@ def get_all_cases():
 
 
 def get_case_details(case_id):
-    return 0
+    conn = connect()
+    cursor = conn.cursor()
+
+    query = """ SELECT * FROM cases WHERE case_id = %s; """
+    cursor.execute(query, (case_id,))
+    case = cursor.fetchall()
+
+
+    conn.close()
+    return case
+
+
+def get_case_columns():
+    conn = connect()
+    cursor = conn.cursor()
+
+    query = """
+     SELECT column_name
+     FROM information_schema.columns
+      WHERE table_name = 'cases'
+       ORDER BY ordinal_position ASC;
+        """
+    cursor.execute(query)
+    columns = [column[0] for column in cursor.fetchall()]
+
+    conn.close()
+    return columns
 
 
 def create_case(client_id, case_status, case_notes):

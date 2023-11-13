@@ -23,7 +23,8 @@ try:
     view_table_schema_query = f"""
         SELECT column_name, data_type, is_nullable
         FROM information_schema.columns
-        WHERE table_name = '{table_to_view}';
+        WHERE table_name = '{table_to_view}'
+        ORDER BY ordinal_position ASC;
     """
     cursor.execute(view_table_schema_query)
 

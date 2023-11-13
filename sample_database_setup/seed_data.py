@@ -121,6 +121,7 @@ try:
         VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
     """
 
+
     cursor.executemany(insert_cases_query, cases_data)
 
     # Commit the changes to the database
