@@ -11,30 +11,81 @@
 
     <div class="container">
         <h2>Case Details</h2>
+
         <div>
-            <p><a href="/cases" class="btn btn-primary">Back</a></p>
-        </div>
+            <p><a href="{{ url_for('display_case_details_admin', case_id=case_details.case_id) }}" class="btn btn-primary">Back</a></p>
+            </div>
+
         <form action="{{ url_for('update_case', case_id=case_details.case_id) }}" method="POST">
             <div class="case-details-container">
+
+
                 <div class="row">
                     {% for key, value in case_details.items() %}
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="{{ key }}">{{ key|capitalize }} :</label>
-                                <input type="text" class="form-control" id="{{ key }}" name="{{ key }}" value="{{ value }}">
+                                <label for="{{ key }}">{{ key|capitalize }}:</label>
+                                {% if key == 'case_id' %}
+                                    <input type="text" class="form-control" id="{{ key }}" name="{{ key }}" value="{{ value }}" readonly>
+                                {% elif key == 'case_work_progress' or key == 'case_status' %}
+                                    <select class="form-control" name="{{ key }}" id="{{ key }}_select">
+                                        {% for option in key|lower ~ 's' %}
+                                            <option value="{{ option }}">{{ option }}</option>
+                                        {% endfor %}
+                                    </select>
+                                {% elif key == 'case_permissions' %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="{{ key }}" id="{{ key }}_yes" value="yes" {% if value %}checked{% endif %}>
+                                        <label class="form-check-label" for="{{ key }}_yes">Yes</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="{{ key }}" id="{{ key }}_no" value="no" {% if not value %}checked{% endif %}>
+                                        <label class="form-check-label" for="{{ key }}_no">No</label>
+                                    </div>
+                                {% elif key in ['case_drop_off', 'case_date_quote_approved', 'case_completed_date', 'case_date_finalized', 'case_date_recieved'] %}
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <label for="select-date-{{ key }}" class="ml-2">dd/mm/yyyy</label>
+                                        </div>
+                                        <div class="col">
+                                            <select class="form-control" name="select-day-{{ key }}" id="select-day-{{ key }}">
+                                                {% for day in date_values['day'] %}
+                                                    <option value="{{ day }}">{{ day }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <select class="form-control" name="select-month-{{ key }}" id="select-month-{{ key }}">
+                                                {% for month in date_values['month'] %}
+                                                    <option value="{{ month }}">{{ month }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <select class="form-control" name="select-year-{{ key }}" id="select-year-{{ key }}">
+                                                {% for year in date_values['year'] %}
+                                                    <option value="{{ year }}">{{ year }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <input type="text" class="form-control" id="{{ key }}" name="{{ key }}" value="{{ value }}">
+                                {% endif %}
                             </div>
                         </div>
                     {% endfor %}
                 </div>
-
+                
                 <div class="row">
                     <div class="col-md-6">
                         <button type="submit" class="btn btn-warning">Save Changes</button>
                     </div>
                 </div>
+                
             </div>
         </form>
-    
+
     </div>
 
     <!-- Bootstrap JS and Popper.js (required for Bootstrap) -->

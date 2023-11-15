@@ -162,17 +162,35 @@ def display_case_details_admin():
 @login_required
 def update_case():
     case_id = request.args.get('case_id')
-    print(case_id)
+    case_statuses = ["None", "Confirmed", "Declined", "Quote Sent", "Evaluating", "En Route", "Closed",
+                     "Evaluation Complete",
+                     "Unrecoverable", "Completed"]
+
+    case_progresses = ["None", "Waiting for parts", "Files sent", "In progress", "Completed", "Closed",
+                       "File list sent",
+                       "Cloning", "Waiting for drive", "Copying files", "Invoice sent", "Approved", "Paid",
+                       "Shipped",
+                       "Reasearch", "Super Rush"]
+
+    date_values = {
+        'day': get_days(),
+        'month': get_months(),
+        'year': get_current_and_next_year()
+    }
+
     if not current_user.role:
         flash('Access Denied: You are not an admin.', 'error')
         return redirect(url_for('user_dashboard'))
+
+
 
     case_details = database_operations.get_case_details(case_id)
     columns = database_operations.get_case_columns()
 
     case_data = {columns[i]: case_details[0][i] for i in range(len(columns))}
 
-    return render_template('update_case.html', case_details=case_data)
+    return render_template('update_case.html', case_details=case_data, progresses=case_progresses,
+                           statuses=case_statuses, date_values=date_values )
 
 
 @app.route('/case_details_user')
