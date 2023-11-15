@@ -173,5 +173,56 @@ def display_case_details_user():
         return redirect(url_for('user_dashboard'))
 
 
+'''
+client_email, case_drop_off, case_status, case_work_progress,
+        case_malfunction, case_quote, case_device_type, case_important_folders,
+        case_size, case_permissions, case_date_recieved, case_date_quote_approved,
+        case_completed_date, case_date_finalized, case_referred_by, case_notes
+'''
+
+
+@app.route('/create_case', methods=['GET', 'POST'])
+@login_required
+def create_case():
+    if not current_user.role:
+        flash('Access Denied: You are not an admin.', 'error')
+        return redirect(url_for('user_dashboard'))
+
+    case_statuses = ["None", "Confirmed", "Declined", "Quote Sent", "Evaluating", "En Route", "Closed",
+                     "Evaluation Complete",
+                     "Unrecoverable", "Completed"]
+
+    case_progresses = ["None", "Waiting for parts", "Files sent", "In progress", "Completed", "Closed",
+                       "File list sent",
+                       "Cloning", "Waiting for drive", "Copying files", "Invoice sent", "Approved", "Paid",
+                       "Shipped",
+                       "Reasearch", "Super Rush"]
+    if request.method == 'POST':
+        client_email = request.form['client_email']
+        case_drop_off = request.form['case_drop_off']
+        case_status = request.form['case_status']
+        case_work_progress = request.form['case_work_progress']
+        case_malfunction = request.form['case_malfunction']
+        case_quote = request.form['case_quote']
+        case_device_type = request.form['case_device_type']
+        case_important_folders = request.form['case_important_folders']
+        case_size = request.form['case_size']
+        case_permissions = request.form['case_permissions']
+        case_date_recieved = request.form['case_date_recieved']
+        case_date_quote_approved = request.form['case_date_quote_approved']
+        case_completed_date = request.form['case_completed_date']
+        case_date_finalized = request.form['case_date_finalized']
+        case_referred_by = request.form['case_referred_by']
+        case_notes = request.form['case_notes']
+
+        database_operations.create_case(client_email, case_drop_off, case_status, case_work_progress,
+                                        case_malfunction, case_quote, case_device_type, case_important_folders,
+                                        case_size, case_permissions, case_date_recieved, case_date_quote_approved,
+                                        case_completed_date, case_date_finalized, case_referred_by, case_notes)
+
+    return render_template('create_case.html', clients=database_operations.get_clients(), statuses=case_statuses,
+                           progress=case_progresses)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

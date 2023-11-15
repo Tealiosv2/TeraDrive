@@ -6,15 +6,19 @@
 <body>
     <h1>Create Case</h1>
     <form action="/create-case" method="POST">
-        <label for="client_name">Client Name:</label>
-        <select name="client_id" id="client_id">
+        <label for="client_name">Client Email:</label>
+        <select name="client_email" id="client_email">
             {% for client in clients %}
-                <option value="{{ client.client_id }}">{{ client.client_name }}</option>
+                <option value="{{ client.client_email }}">{{ client.client_email }}</option>
             {% endfor %}
         </select>
         <br>
         <label for="case_status">Case Status:</label>
-        <input type="text" name="case_status" id="case_status" required>
+        <select name="client_email" id="client_email">
+            {% for status in statuses %}
+                <option value="{{ status }}">{{ status }}</option>
+            {% endfor %}
+        </select>
         <br>
         <label for="case_notes">Case Notes:</label>
         <textarea name="case_notes" id="case_notes" rows="4" required></textarea>
@@ -22,6 +26,6 @@
         <input type="submit" value="Create Case">
     </form>
     <br>
-    <a href="/admin_dashboard">Back to Home</a>
+    <a href="/cases">Back</a>
 </body>
 </html>

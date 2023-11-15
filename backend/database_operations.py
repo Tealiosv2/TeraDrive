@@ -38,6 +38,7 @@ def create_user(username, email, password_hash, phone):
         print("Error creating a new user:", e)
         return None
     finally:
+        cursor.close()
         connection.close()
 
 
@@ -85,6 +86,8 @@ def get_clients():
             'client_phone': row[3]
         }
         records.append(record)
+
+    cursor.close()
     connection.close()
     return records
 
@@ -103,6 +106,7 @@ def get_client_cases(client_email):
 
     records.insert(0, client_name)
 
+    cursor.close()
     connection.close()
     return records
 
@@ -118,6 +122,7 @@ def get_all_cases():
     cursor.execute(query)
     cases = cursor.fetchall()
 
+    cursor.close()
     conn.close()
     return cases
 
@@ -130,7 +135,7 @@ def get_case_details(case_id):
     cursor.execute(query, (case_id,))
     case = cursor.fetchall()
 
-
+    cursor.close()
     conn.close()
     return case
 
@@ -148,20 +153,32 @@ def get_case_columns():
     cursor.execute(query)
     columns = [column[0] for column in cursor.fetchall()]
 
+    cursor.close()
     conn.close()
     return columns
 
 
-def create_case(client_id, case_status, case_notes):
+def create_case(client_email, case_drop_off, case_status, case_work_progress,
+                case_malfunction, case_quote, case_device_type, case_important_folders,
+                case_size, case_permissions, case_date_recieved, case_date_quote_approved,
+                case_completed_date, case_date_finalized, case_referred_by, case_notes):
     conn = connect()
     cursor = conn.cursor()
 
-    # Execute the SQL query to insert a new case
-    query = f"""
-        INSERT INTO cases (client_id, case_status, case_notes)
-        VALUES ({client_id}, '{case_status}', '{case_notes}')
-        """
-    cursor.execute(query)
-    conn.commit()
+    cases_data = [client_email, case_drop_off, case_status, case_work_progress, case_malfunction, case_quote,
+                  case_device_type, case_important_folders, case_size, case_permissions, case_date_recieved,
+                  case_date_quote_approved, case_completed_date, case_date_finalized, case_referred_by, case_notes]
 
+    # Execute the SQL query to insert a new case
+    insert_cases_query = """
+            INSERT INTO cases ( client_email, case_drop_off, case_status, case_work_progress,
+            case_malfunction, case_quote, case_device_type, case_important_folders,
+            case_size, case_permissions, case_date_recieved, case_date_quote_approved,
+            case_completed_date, case_date_finalized, case_referred_by, case_notes)
+            VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+        """
+
+    cursor.executemany(insert_cases_query, cases_data)
+    conn.commit()
+    cursor.close()
     conn.close()
