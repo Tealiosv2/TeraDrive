@@ -27,12 +27,23 @@
                                 <label for="{{ key }}">{{ key|capitalize }}:</label>
                                 {% if key == 'case_id' %}
                                     <input type="text" class="form-control" id="{{ key }}" name="{{ key }}" value="{{ value }}" readonly>
-                                {% elif key == 'case_work_progress' or key == 'case_status' %}
-                                    <select class="form-control" name="{{ key }}" id="{{ key }}_select">
-                                        {% for option in key|lower ~ 's' %}
-                                            <option value="{{ option }}">{{ option }}</option>
+                                    {% elif key == 'case_work_progress' %}
+                                    <div class="form-group">
+                                        <select class="form-control" name="case_work_progress" 
+                                    id="case_work_progress_select">
+                                    {% for progress in progresses %}
+                                        <option value="{{ progress }}">{{ progress }}</option>
+                                    {% endfor %}
+                                </select>
+                                </div>
+                                {% elif key == 'case_status' %}
+                                <div class="form-group">
+                                    <select class="form-control" name="case_status" id="case_status_select">
+                                        {% for status in statuses %}
+                                            <option value="{{ status }}">{{ status }}</option>
                                         {% endfor %}
                                     </select>
+                                </div>
                                 {% elif key == 'case_permissions' %}
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="{{ key }}" id="{{ key }}_yes" value="yes" {% if value %}checked{% endif %}>
