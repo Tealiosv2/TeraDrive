@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from backend import database_operations
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -137,7 +138,7 @@ def display_cases():
         return redirect(url_for('user_dashboard'))
     cases = database_operations.get_all_cases()
 
-    return render_template('cases.html', cases=cases)
+    return render_template('cases.html', cases=reversed(cases))
 
 
 @app.route('/case_details_admin')
@@ -155,6 +156,23 @@ def display_case_details_admin():
     case_data = {columns[i]: case_details[0][i] for i in range(len(columns))}
 
     return render_template('case_details_admin.html', case_details=case_data)
+
+
+@app.route('/update_case_form', methods=['GET', 'POST'])
+@login_required
+def update_case():
+    case_id = request.args.get('case_id')
+    print(case_id)
+    if not current_user.role:
+        flash('Access Denied: You are not an admin.', 'error')
+        return redirect(url_for('user_dashboard'))
+
+    case_details = database_operations.get_case_details(case_id)
+    columns = database_operations.get_case_columns()
+
+    case_data = {columns[i]: case_details[0][i] for i in range(len(columns))}
+
+    return render_template('update_case.html', case_details=case_data)
 
 
 @app.route('/case_details_user')
@@ -181,9 +199,9 @@ client_email, case_drop_off, case_status, case_work_progress,
 '''
 
 
-@app.route('/create_case', methods=['GET', 'POST'])
+@app.route('/create_case_form', methods=['GET', 'POST'])
 @login_required
-def create_case():
+def create_case_form():
     if not current_user.role:
         flash('Access Denied: You are not an admin.', 'error')
         return redirect(url_for('user_dashboard'))
@@ -197,9 +215,25 @@ def create_case():
                        "Cloning", "Waiting for drive", "Copying files", "Invoice sent", "Approved", "Paid",
                        "Shipped",
                        "Reasearch", "Super Rush"]
+
+    years = get_current_and_next_year()
+
+    return render_template('create_case.html', clients=database_operations.get_clients(), statuses=case_statuses,
+                           progresses=case_progresses, years=years, months=get_months(),
+                           days=get_days())
+
+
+@app.route('/create-case', methods=['GET', 'POST'])
+@login_required
+def create_case_post():
+    if not current_user.role:
+        flash('Access Denied: You are not an admin.', 'error')
+        return redirect(url_for('user_dashboard'))
     if request.method == 'POST':
         client_email = request.form['client_email']
-        case_drop_off = request.form['case_drop_off']
+        case_drop_off = get_formatted_date_from_form(request.form, 'select-day-case_drop_off',
+                                                     'select-month-case_drop_off',
+                                                     'select-year-case_drop_off')
         case_status = request.form['case_status']
         case_work_progress = request.form['case_work_progress']
         case_malfunction = request.form['case_malfunction']
@@ -208,20 +242,57 @@ def create_case():
         case_important_folders = request.form['case_important_folders']
         case_size = request.form['case_size']
         case_permissions = request.form['case_permissions']
-        case_date_recieved = request.form['case_date_recieved']
-        case_date_quote_approved = request.form['case_date_quote_approved']
-        case_completed_date = request.form['case_completed_date']
-        case_date_finalized = request.form['case_date_finalized']
+        case_date_received = get_formatted_date_from_form(request.form, 'select-day-case_drop_off',
+                                                          'select-month-case_drop_off',
+                                                          'select-year-case_drop_off')
+        case_date_quote_approved = get_formatted_date_from_form(request.form, 'select-day-case_drop_off',
+                                                                'select-month-case_drop_off',
+                                                                'select-year-case_drop_off')
+        case_completed_date = None
+        case_date_finalized = None
         case_referred_by = request.form['case_referred_by']
         case_notes = request.form['case_notes']
 
-        database_operations.create_case(client_email, case_drop_off, case_status, case_work_progress,
-                                        case_malfunction, case_quote, case_device_type, case_important_folders,
-                                        case_size, case_permissions, case_date_recieved, case_date_quote_approved,
-                                        case_completed_date, case_date_finalized, case_referred_by, case_notes)
+        case = (client_email, case_drop_off, case_status, case_work_progress,
+                case_malfunction, case_quote, case_device_type, case_important_folders,
+                case_size, case_permissions == 'yes', case_date_received, case_date_quote_approved,
+                case_completed_date, case_date_finalized, case_referred_by, case_notes)
 
-    return render_template('create_case.html', clients=database_operations.get_clients(), statuses=case_statuses,
-                           progress=case_progresses)
+        database_operations.create_case(replace_empty_with_none(case))
+
+        return redirect(url_for('display_cases'))
+
+
+def get_formatted_date_from_form(form, day_field, month_field, year_field, date_format="%Y-%m-%d"):
+    day = int(form[day_field])
+    month = int(form[month_field])
+    year = int(form[year_field])
+    date_object = datetime(year, month, day)
+    return date_object.strftime(date_format)
+
+
+def replace_empty_with_none(input_tuple):
+    return tuple(None if element == '' else element for element in input_tuple)
+
+
+def get_days():
+    days = []
+    for i in range(1, 32):
+        days.append(i)
+    return days
+
+
+def get_months():
+    months = []
+    for i in range(1, 13):
+        months.append(i)
+    return months
+
+
+def get_current_and_next_year():
+    current_year = datetime.now().year
+    next_year = current_year + 1
+    return [current_year, next_year]
 
 
 if __name__ == '__main__':

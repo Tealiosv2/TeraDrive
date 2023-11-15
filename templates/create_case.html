@@ -1,31 +1,184 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Case</title>
+    <!-- Include Bootstrap CSS (Assuming Bootstrap is available in your project) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
-<body>
-    <h1>Create Case</h1>
+<body class="container mt-4">
+
+    <h1 class="mb-4">Create Case</h1>
+
     <form action="/create-case" method="POST">
-        <label for="client_name">Client Email:</label>
-        <select name="client_email" id="client_email">
-            {% for client in clients %}
-                <option value="{{ client.client_email }}">{{ client.client_email }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <label for="case_status">Case Status:</label>
-        <select name="client_email" id="client_email">
-            {% for status in statuses %}
-                <option value="{{ status }}">{{ status }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <label for="case_notes">Case Notes:</label>
-        <textarea name="case_notes" id="case_notes" rows="4" required></textarea>
-        <br>
-        <input type="submit" value="Create Case">
+        <div class="form-group">
+            <label for="client_email">Client Email:</label>
+            <select class="form-control" name="client_email" id="client_email_select" required>
+                {% for client in clients %}
+                    <option value="{{ client.client_email }}">{{ client.client_email }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="case_drop_off">Case Drop Off:</label>
+            <label for="select-date-case_drop_off" class="ml-2">dd/mm/yyyy</label>
+            <div class="form-row">
+                <div class="col">
+                    <select class="form-control" name="select-day-case_drop_off" id="select-day-case_drop_off">
+                        {% for day in days %}
+                            <option value="{{ day }}">{{ day }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-control" name="select-month-case_drop_off" id="select-month-case_drop_off">
+                        {% for month in months %}
+                            <option value="{{ month }}">{{ month }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-control" name="select-year-case_drop_off" id="select-year-case_drop_off">
+                        {% for year in years %}
+                            <option value="{{ year }}">{{ year }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="case_status">Case Status:</label>
+            <select class="form-control" name="case_status" id="case_status_select">
+                {% for status in statuses %}
+                    <option value="{{ status }}">{{ status }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="case_work_progress">Case Work Progress:</label>
+            <select class="form-control" name="case_work_progress" id="case_work_progress_select">
+                {% for progress in progresses %}
+                    <option value="{{ progress }}">{{ progress }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="case_malfunction">Case Malfunction:</label>
+            <input type="text" class="form-control" name="case_malfunction" id="case_malfunction">
+        </div>
+
+        <div class="form-group">
+            <label for="case_quote">Case Quote:</label>
+            <input type="text" class="form-control" name="case_quote" id="case_quote">
+        </div>
+
+        <div class="form-group">
+            <label for="case_device_type">Case Device Type:</label>
+            <input type="text" class="form-control" name="case_device_type" id="case_device_type">
+        </div>
+
+        <div class="form-group">
+            <label for="case_important_folders">Case Important Folders:</label>
+            <input type="text" class="form-control" name="case_important_folders" id="case_important_folders">
+        </div>
+
+        <div class="form-group">
+            <label for="case_size">Case Size:</label>
+            <input type="text" class="form-control" name="case_size" id="case_size">
+        </div>
+
+        <div class="form-group">
+            <label>Case Permissions:</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="case_permissions" id="case_permissions_yes" value="yes">
+                <label class="form-check-label" for="case_permissions_yes">Yes</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="case_permissions" id="case_permissions_no" value="no">
+                <label class="form-check-label" for="case_permissions_no">No</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="case_received">Case Received:</label>
+            <label for="select-case_received" class="ml-2">dd/mm/yyyy</label>
+            <div class="form-row">
+                <div class="col">
+                    <select class="form-control" name="select-day-case_received" id="select-day-case_received">
+                        {% for day in days %}
+                            <option value="{{ day }}">{{ day }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-control" name="select-month-case_received" id="select-month-case_received">
+                        {% for month in months %}
+                            <option value="{{ month }}">{{ month }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-control" name="select-year-case_received" id="select-year-case_received">
+                        {% for year in years %}
+                            <option value="{{ year }}">{{ year }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="case_date_quote_approved">Case Date Approved:</label>
+            <label for="select-case_date_quote_approved" class="ml-2">dd/mm/yyyy</label>
+            <div class="form-row">
+                <div class="col">
+                    <select class="form-control" name="select-day-case_date_quote_approved" id="select-day-case_date_quote_approved">
+                        {% for day in days %}
+                            <option value="{{ day }}">{{ day }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-control" name="select-month-case_date_quote_approved" id="select-month-case_date_quote_approved">
+                        {% for month in months %}
+                            <option value="{{ month }}">{{ month }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-control" name="select-year-case_date_quote_approved" id="select-year-case_date_quote_approved">
+                        {% for year in years %}
+                            <option value="{{ year }}">{{ year }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="case_referred_by">Case Referred By:</label>
+            <input type="text" class="form-control" name="case_referred_by" id="case_referred_by">
+        </div>
+
+        <div class="form-group">
+            <label for="case_notes">Case Notes:</label>
+            <textarea class="form-control" name="case_notes" id="case_notes" rows="4"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Case</button>
     </form>
+
     <br>
-    <a href="/cases">Back</a>
+    <a href="/cases" class="btn btn-secondary">Back</a>
+
+    <!-- Include Bootstrap JS (Assuming Bootstrap JS is available in your project) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

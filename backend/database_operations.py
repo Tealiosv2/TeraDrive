@@ -158,27 +158,20 @@ def get_case_columns():
     return columns
 
 
-def create_case(client_email, case_drop_off, case_status, case_work_progress,
-                case_malfunction, case_quote, case_device_type, case_important_folders,
-                case_size, case_permissions, case_date_recieved, case_date_quote_approved,
-                case_completed_date, case_date_finalized, case_referred_by, case_notes):
+def create_case(cases_data):
     conn = connect()
     cursor = conn.cursor()
 
-    cases_data = [client_email, case_drop_off, case_status, case_work_progress, case_malfunction, case_quote,
-                  case_device_type, case_important_folders, case_size, case_permissions, case_date_recieved,
-                  case_date_quote_approved, case_completed_date, case_date_finalized, case_referred_by, case_notes]
-
     # Execute the SQL query to insert a new case
     insert_cases_query = """
-            INSERT INTO cases ( client_email, case_drop_off, case_status, case_work_progress,
+            INSERT INTO cases (client_email, case_drop_off, case_status, case_work_progress,
             case_malfunction, case_quote, case_device_type, case_important_folders,
             case_size, case_permissions, case_date_recieved, case_date_quote_approved,
             case_completed_date, case_date_finalized, case_referred_by, case_notes)
-            VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
         """
 
-    cursor.executemany(insert_cases_query, cases_data)
+    cursor.execute(insert_cases_query, cases_data)
     conn.commit()
     cursor.close()
     conn.close()
