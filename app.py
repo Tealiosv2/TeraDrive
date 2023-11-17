@@ -221,15 +221,35 @@ def update_case():
 
     database_operations.update_case(**updated_data)
 
-    return redirect(url_for('display_case_details_admin', case_id=updated_data['case_id']))
+    return redirect(url_for('display_cases'))
 
 
 @app.route('/delete_case')
 @login_required
 def delete_case():
     case_id = request.args.get('case_id')
-    database_operations.delete_case(case_id)
-    return redirect(url_for('delete_case_confirmation'))
+    return render_template('delete_confirmation.html', case_id=case_id)
+
+
+@app.route('/confirm_delete_case', methods=['POST'])
+@login_required
+def confirm_delete_case():
+    case_id = request.args.get('case_id')
+    if case_id:
+
+        database_operations.delete_case(case_id)
+        return redirect(url_for('display_cases'))
+    else:
+        # Handle invalid case_id
+        return redirect(url_for('display_cases'))
+
+
+@app.route('/delete_case_confirmation')
+@login_required
+def delete_case_confirmation():
+    case_id = request.args.get('case_id')
+    return render_template('delete_confirmation.html', case_id=case_id)
+
 
 @app.route('/case_details_user')
 @login_required
@@ -297,7 +317,7 @@ def create_case_post():
         case_device_type = request.form['case_device_type']
         case_important_folders = request.form['case_important_folders']
         case_size = request.form['case_size']
-        case_permissions = request.form['case_permissions']
+        case_permissions = request.form.get('case_permissions')
         case_date_received = get_formatted_date_from_form(request.form, 'select-day-case_drop_off',
                                                           'select-month-case_drop_off',
                                                           'select-year-case_drop_off')

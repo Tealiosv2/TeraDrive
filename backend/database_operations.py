@@ -176,11 +176,10 @@ def create_case(cases_data):
     cursor.close()
     conn.close()
 
+
 def update_case(**kwargs):
     conn = connect()
     cursor = conn.cursor()
-
-
 
     update_query = f"""
         UPDATE cases 
@@ -205,6 +204,21 @@ def update_case(**kwargs):
     """
 
     cursor.execute(update_query)
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+
+def delete_case(case_id):
+    conn = connect()
+    cursor = conn.cursor()
+
+    delete_query = f"""
+        DELETE FROM cases
+        WHERE case_id = {case_id};
+    """
+
+    cursor.execute(delete_query)
     conn.commit()
     cursor.close()
     conn.close()
