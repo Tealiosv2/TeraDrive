@@ -19,6 +19,7 @@
                     <th>Email</th>
                     <th>Phone Number</th>
                     <th>View Cases</th>
+                    <th>View Client</th>
 
                 </tr>
             </thead>
@@ -31,6 +32,9 @@
                     <td>{{ record['client_phone'] }}</td>
                     <td>
                         <a href="{{ url_for('get_client_cases', client_email=record['client_email']) }}" class="btn btn-primary">View Cases</a>
+                    </td>
+                    <td>
+                        <a href="{{  url_for('get_client_details', client_id=record['client_id']) }}" class="btn btn-primary">View Client</a>
                     </td>
                 </tr>
                 {% endfor %}

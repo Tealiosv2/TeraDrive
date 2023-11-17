@@ -223,6 +223,13 @@ def update_case():
 
     return redirect(url_for('display_cases'))
 
+@app.route('/get_client_details')
+@login_required
+def get_client_details():
+    client_id = request.args.get('client_id')
+    client_details = database_operations.get_client_details(client_id)
+    return render_template('client_details.html', client_details=client_details)
+
 
 @app.route('/delete_case')
 @login_required

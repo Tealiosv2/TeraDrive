@@ -158,6 +158,19 @@ def get_case_columns():
     return columns
 
 
+def get_client_details(client_id):
+    conn = connect()
+    cursor = conn.cursor()
+
+    query = """ SELECT * FROM clients WHERE client_id = %s; """
+
+    cursor.execute(query, (client_id,))
+    client_details = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return client_details
+
+
 def create_case(cases_data):
     conn = connect()
     cursor = conn.cursor()
