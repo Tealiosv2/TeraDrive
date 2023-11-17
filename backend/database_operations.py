@@ -41,6 +41,19 @@ def create_user(username, email, password_hash, phone):
         cursor.close()
         connection.close()
 
+def get_user_by_email(email):
+    select_query = "SELECT id, username, role, email FROM users WHERE email = %s"
+    user = None
+
+    try:
+        with psycopg2.connect('postgresql://postgres:mysecretpassword@localhost:5432/teradrive') as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(select_query, (email,))
+                user = cursor.fetchone()
+    except psycopg2.Error as e:
+        print("Error retrieving user by email:", e)
+
+    return user
 
 def get_user_by_id(user_id):
     select_query = "SELECT id, username, role, email FROM users WHERE id = %s"

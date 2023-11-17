@@ -5,6 +5,8 @@ from backend import database_operations
 from datetime import datetime
 
 app = Flask(__name__)
+
+# change to an environment variable
 app.secret_key = 'your_secret_key'
 
 login_manager = LoginManager()
@@ -223,17 +225,50 @@ def update_case():
 
     return redirect(url_for('display_cases'))
 
+
 @app.route('/get_client_details')
 @login_required
 def get_client_details():
+    if not current_user.role:
+        flash('Access Denied: You are not an admin.', 'error')
+        return redirect(url_for('user_dashboard'))
     client_id = request.args.get('client_id')
     client_details = database_operations.get_client_details(client_id)
     return render_template('client_details.html', client_details=client_details)
+
+@app.route('/edit_credentials_form')
+@login_required
+def edit_credentials_form():
+    if not current_user.role:
+        flash('Access Denied: You are not an admin.', 'error')
+        return redirect(url_for('user_dashboard'))
+    client_id = request.args.get('client_id')
+    client_details = database_operations.get_client_details(client_id)
+    user_email = client_details[0][1]
+    user_details = database_operations.get_user_by_email(user_email)
+    return render_template('edit_credentials_form.html', user_details=user_details, client_details=client_details)
+
+@app.route('/edit_credentials')
+@login_required
+def edit_credentials():
+    if not current_user.role:
+        flash('Access Denied: You are not an admin.', 'error')
+        return redirect(url_for('user_dashboard'))
+
+    #get stuff from the form here
+
+    client_id = request.args.get('client_id')
+    client_email = request.args.get('client_email')
+    database_operations.update_client_user_credentials(client_id, client_email)
+    return redirect(url_for('get_clients'))
 
 
 @app.route('/delete_case')
 @login_required
 def delete_case():
+    if not current_user.role:
+        flash('Access Denied: You are not an admin.', 'error')
+        return redirect(url_for('user_dashboard'))
     case_id = request.args.get('case_id')
     return render_template('delete_confirmation.html', case_id=case_id)
 
@@ -241,6 +276,9 @@ def delete_case():
 @app.route('/confirm_delete_case', methods=['POST'])
 @login_required
 def confirm_delete_case():
+    if not current_user.role:
+        flash('Access Denied: You are not an admin.', 'error')
+        return redirect(url_for('user_dashboard'))
     case_id = request.args.get('case_id')
     if case_id:
 
@@ -254,6 +292,9 @@ def confirm_delete_case():
 @app.route('/delete_case_confirmation')
 @login_required
 def delete_case_confirmation():
+    if not current_user.role:
+        flash('Access Denied: You are not an admin.', 'error')
+        return redirect(url_for('user_dashboard'))
     case_id = request.args.get('case_id')
     return render_template('delete_confirmation.html', case_id=case_id)
 
@@ -261,6 +302,9 @@ def delete_case_confirmation():
 @app.route('/case_details_user')
 @login_required
 def display_case_details_user():
+    if not current_user.role:
+        flash('Access Denied: You are not an admin.', 'error')
+        return redirect(url_for('user_dashboard'))
     case_id = request.args.get('case_id')
 
     case_details = database_operations.get_case_details(case_id)
