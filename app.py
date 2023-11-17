@@ -160,7 +160,7 @@ def display_case_details_admin():
 
 @app.route('/update_case_form', methods=['GET', 'POST'])
 @login_required
-def update_case():
+def update_case_form():
     case_id = request.args.get('case_id')
     case_statuses = ["None", "Confirmed", "Declined", "Quote Sent", "Evaluating", "En Route", "Closed",
                      "Evaluation Complete",
@@ -182,16 +182,54 @@ def update_case():
         flash('Access Denied: You are not an admin.', 'error')
         return redirect(url_for('user_dashboard'))
 
-
-
     case_details = database_operations.get_case_details(case_id)
     columns = database_operations.get_case_columns()
 
     case_data = {columns[i]: case_details[0][i] for i in range(len(columns))}
 
     return render_template('update_case.html', case_details=case_data, progresses=case_progresses,
-                           statuses=case_statuses, date_values=date_values )
+                           statuses=case_statuses, date_values=date_values)
 
+
+@app.route('/update-case', methods=['GET', 'POST'])
+@login_required
+def update_case():
+    if not current_user.role:
+        flash('Access Denied: You are not an admin.', 'error')
+        return redirect(url_for('user_dashboard'))
+
+    updated_data = {}
+    for key in request.form:
+        if key.startswith('select-day-'):
+            date_key = key.replace('select-day-', '')
+            day = request.form.get(key)
+            month = request.form.get(f'select-month-{date_key}')
+            year = request.form.get(f'select-year-{date_key}')
+            updated_data[date_key] = combine_date(day, month, year)
+        elif key == 'case_quote':
+            try:
+                updated_data[key] = int(request.form[key])
+            except ValueError:
+                updated_data[key] = 0
+        elif key == 'case_permissions':
+            if request.form[key] == 'yes':
+                updated_data[key] = True
+            else:
+                updated_data[key] = False
+        else:
+            updated_data[key] = request.form[key]
+
+    database_operations.update_case(**updated_data)
+
+    return redirect(url_for('display_case_details_admin', case_id=updated_data['case_id']))
+
+
+@app.route('/delete_case')
+@login_required
+def delete_case():
+    case_id = request.args.get('case_id')
+    database_operations.delete_case(case_id)
+    return redirect(url_for('delete_case_confirmation'))
 
 @app.route('/case_details_user')
 @login_required
@@ -311,6 +349,10 @@ def get_current_and_next_year():
     current_year = datetime.now().year
     next_year = current_year + 1
     return [current_year, next_year]
+
+
+def combine_date(day, month, year):
+    return f"{year}-{month}-{day}"
 
 
 if __name__ == '__main__':

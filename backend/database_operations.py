@@ -117,7 +117,7 @@ def get_all_cases():
 
     # Execute the SQL query to retrieve case information with client email
     query = """
-        SELECT case_id, client_email case_status, case_work_progress, case_quote, case_notes FROM cases;
+        SELECT case_id, client_email, case_status, case_work_progress, case_quote, case_notes FROM cases;
         """
     cursor.execute(query)
     cases = cursor.fetchall()
@@ -172,6 +172,39 @@ def create_case(cases_data):
         """
 
     cursor.execute(insert_cases_query, cases_data)
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def update_case(**kwargs):
+    conn = connect()
+    cursor = conn.cursor()
+
+
+
+    update_query = f"""
+        UPDATE cases 
+        SET 
+            client_email = '{kwargs['client_email']}',
+            case_drop_off = '{kwargs['case_drop_off']}',
+            case_status = '{kwargs['case_status']}',
+            case_work_progress = '{kwargs['case_work_progress']}',
+            case_malfunction = '{kwargs['case_malfunction']}',
+            case_quote = {kwargs['case_quote']},
+            case_device_type = '{kwargs['case_device_type']}',
+            case_important_folders = '{kwargs['case_important_folders']}',
+            case_size = '{kwargs['case_size']}',
+            case_permissions = {kwargs['case_permissions']},
+            case_date_recieved = '{kwargs['case_date_recieved']}',
+            case_date_quote_approved = '{kwargs['case_date_quote_approved']}',
+            case_completed_date = '{kwargs['case_completed_date']}',
+            case_date_finalized = '{kwargs['case_date_finalized']}',
+            case_referred_by = '{kwargs['case_referred_by']}',
+            case_notes = '{kwargs['case_notes']}'
+        WHERE case_id = {kwargs['case_id']};
+    """
+
+    cursor.execute(update_query)
     conn.commit()
     cursor.close()
     conn.close()
