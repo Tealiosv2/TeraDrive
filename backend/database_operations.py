@@ -41,8 +41,9 @@ def create_user(username, email, password_hash, phone):
         cursor.close()
         connection.close()
 
+
 def get_user_by_email(email):
-    select_query = "SELECT id, username, role, email FROM users WHERE email = %s"
+    select_query = "SELECT id, username, email, role FROM users WHERE email = %s"
     user = None
 
     try:
@@ -51,9 +52,10 @@ def get_user_by_email(email):
                 cursor.execute(select_query, (email,))
                 user = cursor.fetchone()
     except psycopg2.Error as e:
-        print("Error retrieving user by email:", e)
+        print("Error retrieving user by username:", e)
 
     return user
+
 
 def get_user_by_id(user_id):
     select_query = "SELECT id, username, role, email FROM users WHERE id = %s"
@@ -71,7 +73,7 @@ def get_user_by_id(user_id):
 
 
 def get_user_by_username(username):
-    select_query = "SELECT id, username, password_hash, role FROM users WHERE username = %s"
+    select_query = "SELECT id, username, password_hash, email, role FROM users WHERE username = %s"
     user = None
 
     try:
@@ -182,6 +184,32 @@ def get_client_details(client_id):
     cursor.close()
     conn.close()
     return client_details
+
+def update_user_client(**kwargs):
+    user_details = get_user_by_email(kwargs['email'])
+    user_id = user_details[0]
+    update_user(user_id, **kwargs)
+
+
+def update_user(user_id, **kwargs):
+    conn = connect()
+    cursor = conn.cursor()
+
+    update_query = f"""
+            UPDATE users
+            SET
+                username = '{kwargs['username']}',
+                email = '{kwargs['email']}',
+                phone = '{kwargs['phone']}',
+
+                role = {kwargs['role']}
+            WHERE id = {user_id};
+        """
+
+    cursor.execute(update_query)
+    conn.commit()
+    cursor.close()
+    conn.close()
 
 
 def create_case(cases_data):

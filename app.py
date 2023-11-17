@@ -236,6 +236,7 @@ def get_client_details():
     client_details = database_operations.get_client_details(client_id)
     return render_template('client_details.html', client_details=client_details)
 
+
 @app.route('/edit_credentials_form')
 @login_required
 def edit_credentials_form():
@@ -244,22 +245,47 @@ def edit_credentials_form():
         return redirect(url_for('user_dashboard'))
     client_id = request.args.get('client_id')
     client_details = database_operations.get_client_details(client_id)
-    user_email = client_details[0][1]
-    user_details = database_operations.get_user_by_email(user_email)
-    return render_template('edit_credentials_form.html', user_details=user_details, client_details=client_details)
+    user_details = database_operations.get_user_by_email(client_details[0][0])
 
-@app.route('/edit_credentials')
+    return render_template('edit_credentials_form.html', user_info=user_details, client_info=client_details[0])
+
+
+@app.route('/edit_credentials', methods=['POST'])
 @login_required
 def edit_credentials():
     if not current_user.role:
         flash('Access Denied: You are not an admin.', 'error')
         return redirect(url_for('user_dashboard'))
 
-    #get stuff from the form here
+    # get stuff from the form here
 
-    client_id = request.args.get('client_id')
-    client_email = request.args.get('client_email')
-    database_operations.update_client_user_credentials(client_id, client_email)
+    credentials_data = {}
+
+    for key in request.form:
+        credentials_data[key] = request.form[key]
+
+    if credentials_data['new_password'] == credentials_data['confirm_password'] and not None:
+        password_hash = generate_password_hash(credentials_data['new_password'])
+
+    role = False
+    try:
+        if credentials_data['admin_role']:
+            role = True
+    except:
+        pass
+
+
+    update_data = {
+        'password_hash': password_hash,
+        'email': credentials_data['user_email'],
+        'phone': credentials_data['client_phone'],
+        'client_name': credentials_data['client_name'],
+        'username': credentials_data['username'],
+        'role': role
+    }
+
+
+    database_operations.update_user_client(**update_data)
     return redirect(url_for('get_clients'))
 
 
