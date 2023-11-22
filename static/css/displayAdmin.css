@@ -147,6 +147,14 @@ a:hover {
     padding-top: 40px;
 }
 
+#clients-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 40px;
+    padding-top: 40px; 
+}
+
 .cases-btn {
     width: 70px;
     margin-right: 100px;
@@ -189,3 +197,38 @@ a:hover {
 
 .show {display:block;}
 
+
+/* All of this is overkill, replace this code with a single class for each of these divs.
+
+
+#case-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 40px;
+    padding-top: 40px;
+}
+
+#case-summary-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 40px;
+    padding-top: 40px;
+}
+
+#case-details-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 40px;
+    padding-top: 40px;
+}
+
+#clients-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 40px;
+    padding-top: 40px; 
+} */
