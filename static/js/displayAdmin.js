@@ -4,7 +4,6 @@ let dashboardButton = document.getElementById("dashboard-anchor");
 let clientsButton = document.getElementById("clients-anchor");
 
 let casesNav = document.getElementById("case-nav-wrapper");
-let summaryNav = document.getElementById("case-summary-wrapper");
 let detailsNav = document.getElementById("case-details-wrapper");
 let clientsNav = document.getElementById("clients-nav-wrapper");
 
@@ -15,38 +14,38 @@ let dropdownDetailsOptions = document.getElementById("dropdown-menu-details");
 
 function showCases() {
     casesNav.style.display = "block";
-    summaryNav.style.display = "none";
     detailsNav.style.display = "none";
     clientsNav.style.display = "none";
+    console.log('hi');
 }
 
 function showDetails() {
     casesNav.style.display = "none";
-    summaryNav.style.display = "none";
     detailsNav.style.display = "block";
     clientsNav.style.display = "none";
+    console.log('hi');
 }
 
 function showAll() {
+    console.log(casesNav.style.display);
+
     casesNav.style.display = "block";
-    summaryNav.style.display = "block";
     detailsNav.style.display = "block";
     clientsNav.style.display = "block";
 }
 
 function showClients() {
     casesNav.style.display = "none";
-    summaryNav.style.display = "none";
     detailsNav.style.display = "none";
     clientsNav.style.display = "block";
-
+    console.log('hi');
 }
+
+dashboardButton.addEventListener("click", showAll);
 
 casesButton.addEventListener("click", showCases);
 
 detailsButton.addEventListener("click", showDetails);
-
-dashboardButton.addEventListener("click", showAll);
 
 clientsButton.addEventListener("click", showClients);
 
@@ -56,7 +55,6 @@ function dropDownToggleCases() {
 
 function dropDownToggleDetails() {
   document.getElementById("dropdown-menu-details").classList.toggle("show");
-  console.log('hi');
 }
 
 
@@ -73,7 +71,7 @@ window.onclick = function(event) {
     }
   }
 
-  if (!event.target.id.matches('.details-btn')) {
+  if (!event.target.matches('.details-btn')) {
     var dropdowns = document.getElementsByClassName("dropdown-menu");
     var i;
     for (i = 0; i < dropdowns.length; i++) {
