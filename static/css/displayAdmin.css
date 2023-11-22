@@ -165,6 +165,8 @@ a:hover {
     margin-right: 100px;
 }
 
+/* Dropdown stuff */
+
 .dropdown-toggle {
     -webkit-text-fill-color: rgb(139,140,140);
     padding-right: 80px;
