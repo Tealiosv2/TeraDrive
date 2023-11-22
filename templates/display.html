@@ -26,19 +26,19 @@
               <div class="d-flex flex-column flex-shrink-0 p-3 " style="width: 280px;">
                   <ul class="nav nav-pills flex-column nav-items">
                     <li>
-                      <a href="#" class="top-side-nav nav-link text-blue">
+                      <a id="dashboard-anchor" href="#" class="top-side-nav nav-link text-blue">
                         <img src="../static/images/menu-icon.png" alt="dashboard-icon">                        
                         Dashboard
                       </a>
                     </li>
                     <li>
-                      <a href="#" class="top-side-nav nav-link text-blue">
+                      <a id="cases-anchor" href="#" class="top-side-nav nav-link text-blue">
                         <img src="../static/images/cases-icon.png" alt="cases-icon">
                         Cases
                       </a>
                     </li>
                     <li>
-                      <a href="#" class="top-side-nav nav-link text-blue">
+                      <a id="details-anchor" href="#" class="top-side-nav nav-link text-blue">
                         <img src="../static/images/case-details-icon.png" alt="details-icon">
                         Case Details
                       </a>
@@ -51,19 +51,19 @@
                   <ul class="nav nav-pills flex-column nav-items">
                     <li>
                       <a href="#" class="nav-link text-blue bottom-side-nav">
-                        <img src="../static/images/settings-icon.png" alt="dashboard-icon">                        
+                        <img src="../static/images/settings-icon.png" alt="settings-icon">                        
                         Settings
                       </a>
                     </li>
                     <li>
                       <a href="#" class="nav-link text-blue bottom-side-nav">
-                        <img src="../static/images/sign-out-icon.png" alt="cases-icon">
+                        <img src="../static/images/sign-out-icon.png" alt="signout-icon">
                         Sign Out
                       </a>
                     </li>
                     <li>
                       <a href="#" class="nav-link text-blue bottom-side-nav">
-                        <img src="../static/images/help-icon.png" alt="details-icon">
+                        <img src="../static/images/help-icon.png" alt="help-icon">
                         Help
                       </a>
                     </li>
@@ -110,57 +110,63 @@
           <!-- cases and case details -->
 
           <div id="cases">
-          <div id="case-nav">
-            <h4>Cases</h4>
-            <div class="dropdown show cases-dropdown">
-              <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                All-Time
-              </a>
-            
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+            <div id="case-nav-wrapper">
+              <div id="case-nav">
+                <h4>Cases</h4>
+                <div class="dropdown show cases-dropdown">
+                  <a onclick="dropDownToggleCases()" class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    All-Time
+                  </a>
+                
+                  <div id="dropdown-menu-1" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="#">All-Time</a>
+                    <a class="dropdown-item" href="#">Last-Month</a>
+                    <a class="dropdown-item" href="#">Last-Week</a>
+                    <a class="dropdown-item" href="#">Last-Day</a>
+                  </div>
+                </div>
               </div>
+              <table class="table table-striped table-bordered case-table-textfield">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Case ID</th>
+                        <th>Client Email</th>
+                        <th>Case Status</th>
+                        <th>Work Progress</th>
+                        <th>Quote</th>
+                        <th>Notes</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for case in cases %}
+                    <tr>
+                        <td>{{ case[0] }}</td>
+                        <td>{{ case[1] }}</td>
+                        <td>{{ case[2] }}</td>
+                        <td>{{ case[3] }}</td>
+                        <td>{{ case[4] }}</td>
+                        <td>{{ case[5] }}</td>
+                        <td>
+                            <a href="{{ url_for('display_case_details', case_id=case[0]) }}" class="btn btn-primary">View Details</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
             </div>
-          </div>
-          <table class="table table-striped table-bordered case-table-textfield">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Case ID</th>
-                    <th>Client Email</th>
-                    <th>Case Status</th>
-                    <th>Work Progress</th>
-                    <th>Quote</th>
-                    <th>Notes</th>
-                    <th>Details</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for case in cases %}
-                <tr>
-                    <td>{{ case[0] }}</td>
-                    <td>{{ case[1] }}</td>
-                    <td>{{ case[2] }}</td>
-                    <td>{{ case[3] }}</td>
-                    <td>{{ case[4] }}</td>
-                    <td>{{ case[5] }}</td>
-                    <td>
-                        <a href="{{ url_for('display_case_details', case_id=case[0]) }}" class="btn btn-primary">View Details</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
           </div>
 
           <div id="case-summary">
-            <div id="case-summary-nav">
-              <h4>Case Summary</h4>
-            </div>  
-            <textarea class="case-table-textfield" name="summary" id="" cols="100" rows="10"></textarea>
-          </div>
+            <div id="case-summary-wrapper">
+              <div id="case-summary-nav">
+                <h4>Case Summary</h4>
+              </div>  
+              <textarea class="case-table-textfield" name="summary" id="" cols="100" rows="10"></textarea>
+              </div>
+            </div>
 
+          <div id="case-details-wrapper">
           <div id="case-details-nav">
             <h4>Case Details</h4>
             <div class="dropdown show cases-dropdown">
@@ -168,20 +174,50 @@
                 All-Time
               </a>
             
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+              <div id="dropdown-menu-2" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#">All-Time</a>
+                <a class="dropdown-item" href="#">Last-Month</a>
+                <a class="dropdown-item" href="#">Last-Week</a>
+                <a class="dropdown-item" href="#">Last-Day</a>
               </div>
             </div>
+            </div>
+            <table class="table table-striped table-bordered case-table-textfield">
+              <thead class="thead-dark">
+                  <tr>
+                      <th>Case ID</th>
+                      <th>Client Email</th>
+                      <th>Case Status</th>
+                      <th>Work Progress</th>
+                      <th>Quote</th>
+                      <th>Notes</th>
+                      <th>Details</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for case in cases %}
+                  <tr>
+                      <td>{{ case[0] }}</td>
+                      <td>{{ case[1] }}</td>
+                      <td>{{ case[2] }}</td>
+                      <td>{{ case[3] }}</td>
+                      <td>{{ case[4] }}</td>
+                      <td>{{ case[5] }}</td>
+                      <td>
+                          <a href="{{ url_for('display_case_details', case_id=case[0]) }}" class="btn btn-primary">View Details</a>
+                      </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
           </div>
 
           
         </div>
     </div>
-    <script src="./js/display.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+    <script src="../static/js/display.js"></script>
+  </body>
 </html>
