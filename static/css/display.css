@@ -147,11 +147,19 @@ a:hover {
     padding-top: 40px;
 }
 
+.cases-btn {
+    width: 70px;
+    margin-right: 100px;
+}
 
+.details-btn {
+    width: 70px;
+    margin-right: 100px;
+}
 
 .dropdown-toggle {
     -webkit-text-fill-color: rgb(139,140,140);
-    padding-right:100px;
+    padding-right: 80px;
 }
 
 .dropdown {
