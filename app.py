@@ -248,10 +248,9 @@ def edit_credentials_form():
         flash('Access Denied: You are not an admin.', 'error')
         return redirect(url_for('user_dashboard'))
     client_id = request.args.get('client_id')
-    client_details = database_operations.get_client_details(client_id)
-    user_details = database_operations.get_user_by_email(client_details[0][0])
+    user_details = database_operations.get_user_by_id(client_id)
 
-    return render_template('edit_credentials_form.html', user_info=user_details, client_info=client_details[0])
+    return render_template('edit_credentials_form.html', user_info=user_details)
 
 
 @app.route('/edit_credentials', methods=['POST'])
@@ -282,11 +281,10 @@ def edit_credentials():
         'password_hash': password_hash,
         'email': credentials_data['user_email'],
         'phone': credentials_data['client_phone'],
-        'client_name': credentials_data['client_name'],
+        'name': credentials_data['client_name'],
         'username': credentials_data['username'],
         'role': role
     }
-
     database_operations.update_user_client(**update_data)
     return redirect(url_for('get_clients'))
 

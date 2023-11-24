@@ -188,6 +188,7 @@ def get_client_details(client_id):
     conn.close()
     return client_details
 
+
 def update_user_client(**kwargs):
     user_details = get_user_by_email(kwargs['email'])
     user_id = user_details[0]
@@ -202,6 +203,7 @@ def update_user(user_id, **kwargs):
             UPDATE users
             SET
                 username = '{kwargs['username']}',
+                password_hash = '{kwargs['password_hash']}',
                 email = '{kwargs['email']}',
                 phone = '{kwargs['phone']}',
                 name = '{kwargs['name']}',
