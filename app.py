@@ -328,9 +328,6 @@ def delete_case_confirmation():
 @app.route('/case_details_user')
 @login_required
 def display_case_details_user():
-    if not current_user.role:
-        flash('Access Denied: You are not an admin.', 'error')
-        return redirect(url_for('user_dashboard'))
     case_id = request.args.get('case_id')
 
     case_details = database_operations.get_case_details(case_id)

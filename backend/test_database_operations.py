@@ -27,8 +27,6 @@ records = database_operations.get_user_by_username('user')
 #
 # database_operations.update_user_client(**updates)
 
-
-
 print(records)
 
 
