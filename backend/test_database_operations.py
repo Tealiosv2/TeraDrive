@@ -11,7 +11,10 @@ import database_operations
 # records = database_operations.get_all_cases()
 
 #test get_client_details
-records = database_operations.get_client_details(1)
+# records = database_operations.get_client_details(1)
+
+#test get by user
+records = database_operations.get_user_by_username('user')
 
 #test update
 # updates = {

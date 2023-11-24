@@ -19,9 +19,14 @@
             <form id="login-form" method="POST" action="{{ url_for('register') }}">
                 <h6>Sign up to access your client dashboard and get direct access to your case updates</h6>
 
-                <div class="input-container name">
+                <div class="input-container username">
                     <label for="username">Username</label>
-                    <input id="name" class="input-field" type="text" name="username" required>
+                    <input id="username" class="input-field" type="text" name="username" required>
+                </div>
+
+                <div class="input-container name">
+                    <label for="name">Name</label>
+                    <input id="name" class="input-field" type="text" name="name" required>
                 </div>
                 
                 <!-- This will temporarily be the username for Wyman's login system. -->

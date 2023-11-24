@@ -18,19 +18,19 @@ def connect():
         print("Error connecting to the database:", e)
 
 
-def create_user(username, email, password_hash, phone):
+def create_user(username, name, email, password_hash, phone):
     connection = connect()
     cursor = connection.cursor()
 
     # Use a SQL query to insert a new user into the "users" table
     insert_query = """
-    INSERT INTO users (username, email, password_hash, phone)
-    VALUES (%s, %s, %s, %s)
+    INSERT INTO users (username, name, email, password_hash, phone)
+    VALUES (%s, %s, %s, %s, %s)
     RETURNING id;
     """
 
     try:
-        cursor.execute(insert_query, (username, email, password_hash, phone))
+        cursor.execute(insert_query, (username, name, email, password_hash, phone))
         user_id = cursor.fetchone()[0]  # Get the ID of the newly created user
         connection.commit()
         return user_id
@@ -58,7 +58,7 @@ def get_user_by_email(email):
 
 
 def get_user_by_id(user_id):
-    select_query = "SELECT id, username, role, email FROM users WHERE id = %s"
+    select_query = "SELECT id, username, name, email, phone, role FROM users WHERE id = %s"
     user = None
 
     try:
@@ -73,7 +73,7 @@ def get_user_by_id(user_id):
 
 
 def get_user_by_username(username):
-    select_query = "SELECT id, username, password_hash, email, role FROM users WHERE username = %s"
+    select_query = "SELECT id, username, name, email, password_hash, phone, role FROM users WHERE username = %s"
     user = None
 
     try:

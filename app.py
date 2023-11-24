@@ -14,9 +14,11 @@ login_manager.init_app(app)
 
 
 class User(UserMixin):
-    def __init__(self, id, username, role, email):
+    def __init__(self, id, username, name, email, phone, role):
         self.id = id
         self.username = username
+        self.name = name
+        self.phone = phone
         self.role = role
         self.email = email
 
@@ -26,8 +28,8 @@ def load_user(user_id):
     # Load a user from the database based on user_id
     user = database_operations.get_user_by_id(user_id)
     if user:
-        user_id, username, role, email = user  # Unpack the tuple
-        return User(user_id, username, role, email)
+        id, username, name, email, phone, role = user  # Unpack the tuple
+        return User(id, username, name, email, phone, role)
     else:
         return None
 
@@ -39,6 +41,7 @@ registered_users = {}
 def register():
     if request.method == 'POST':
         username = request.form['username']
+        name = request.form['name']
         email = request.form['email']
         phone = request.form['phone']
         password = request.form['password']
@@ -47,10 +50,11 @@ def register():
         if username and email and phone and password:
             registered_users[username] = {
                 'email': email,
+                'name': name,
                 'phone': phone,
                 'password': password
             }
-            database_operations.create_user(username, email, generate_password_hash(password), phone)
+            database_operations.create_user(username, name, email, generate_password_hash(password), phone)
             flash('Registration successful. You can now log in.', 'success')
             return redirect(url_for('login'))
 
@@ -67,9 +71,9 @@ def login():
 
         user = database_operations.get_user_by_username(username)
 
-        if user and check_password_hash(user[2], password):  # 'password_hash' is in the third position (index 2)
-            user_id, username, email, role = user  # Unpack the tuple, ignoring the email field (index 2)
-            user_obj = User(user_id, username, role, email)
+        if user and check_password_hash(user[4], password):  # 'password_hash' is in the third position (index 2)
+            id, username, name, email, password_hash, phone, role = user
+            user_obj = User(id, username, name, email, phone, role)
             login_user(user_obj)
             flash('Login successful.', 'success')
             if role:
@@ -226,15 +230,15 @@ def update_case():
     return redirect(url_for('display_cases'))
 
 
-@app.route('/get_client_details')
-@login_required
-def get_client_details():
-    if not current_user.role:
-        flash('Access Denied: You are not an admin.', 'error')
-        return redirect(url_for('user_dashboard'))
-    client_id = request.args.get('client_id')
-    client_details = database_operations.get_client_details(client_id)
-    return render_template('client_details.html', client_details=client_details)
+# @app.route('/get_client_details')
+# @login_required
+# def get_client_details():
+#     if not current_user.role:
+#         flash('Access Denied: You are not an admin.', 'error')
+#         return redirect(url_for('user_dashboard'))
+#     client_id = request.args.get('client_id')
+#     client_details = database_operations.get_client_details(client_id)
+#     return render_template('client_details.html', client_details=client_details)
 
 
 @app.route('/edit_credentials_form')
@@ -274,7 +278,6 @@ def edit_credentials():
     except:
         pass
 
-
     update_data = {
         'password_hash': password_hash,
         'email': credentials_data['user_email'],
@@ -283,7 +286,6 @@ def edit_credentials():
         'username': credentials_data['username'],
         'role': role
     }
-
 
     database_operations.update_user_client(**update_data)
     return redirect(url_for('get_clients'))

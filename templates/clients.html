@@ -15,11 +15,11 @@
             <thead class="thead-dark">
                 <tr>
                     <th>Client ID</th>
+                    <th>Client Username</th>
                     <th>Client Name</th>
                     <th>Email</th>
                     <th>Phone Number</th>
                     <th>View Cases</th>
-                    <th>View Client</th>
                     <th>Edit Credentials</th>
 
                 </tr>
@@ -27,18 +27,16 @@
             <tbody>
                 {% for record in records %}
                 <tr>
-                    <td>{{ record['client_id'] }}</td>
-                    <td>{{ record['client_email'] }}</td>
-                    <td>{{ record['client_name'] }}</td>
-                    <td>{{ record['client_phone'] }}</td>
+                    <td>{{ record['id'] }}</td>
+                    <td>{{ record['username'] }}</td>
+                    <td>{{ record['name'] }}</td>
+                    <td>{{ record['email'] }}</td>
+                    <td>{{ record['phone'] }}</td>
                     <td>
-                        <a href="{{ url_for('get_client_cases', client_email=record['client_email']) }}" class="btn btn-primary">View Cases</a>
+                        <a href="{{ url_for('get_client_cases', client_email=record['email']) }}" class="btn btn-primary">View Cases</a>
                     </td>
                     <td>
-                        <a href="{{  url_for('get_client_details', client_id=record['client_id']) }}" class="btn btn-primary">View Client</a>
-                    </td>
-                    <td>
-                        <a href="{{  url_for('edit_credentials_form', client_id=record['client_id']) }}" class="btn btn-warning">Edit Credentials</a>
+                        <a href="{{  url_for('edit_credentials_form', client_id=record['id']) }}" class="btn btn-warning">Edit Credentials</a>
                     </td>
                 </tr>
                 {% endfor %}
