@@ -10,14 +10,14 @@ db_params = {
 }
 
 # SQL query to create the "clients" table (if it doesn't exist)
-create_clients_table_query = """
-    CREATE TABLE IF NOT EXISTS clients (
-        client_email VARCHAR(255) PRIMARY KEY,
-        client_id SERIAL,
-        client_name VARCHAR(255),
-        client_phone VARCHAR(255)
-    );
-"""
+# create_clients_table_query = """
+#     CREATE TABLE IF NOT EXISTS clients (
+#         client_email VARCHAR(255) PRIMARY KEY,
+#         client_id SERIAL,
+#         client_name VARCHAR(255),
+#         client_phone VARCHAR(255)
+#     );
+# """
 
 # SQL query to create the "cases" table (if it doesn't exist)
 create_cases_table_query = """
@@ -38,8 +38,7 @@ create_cases_table_query = """
         case_completed_date DATE,
         case_date_finalized DATE,
         case_referred_by VARCHAR (255),
-        case_notes TEXT,
-        FOREIGN KEY (client_email) REFERENCES clients (client_email)
+        case_notes TEXT
     );
 """
 
@@ -51,7 +50,7 @@ try:
     cursor = connection.cursor()
 
     # Execute the SQL query to create the "clients" table (if it doesn't exist)
-    cursor.execute(create_clients_table_query)
+    # cursor.execute(create_clients_table_query)
 
     # Execute the SQL query to create the "cases" table (if it doesn't exist)
     cursor.execute(create_cases_table_query)

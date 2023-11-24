@@ -90,15 +90,18 @@ def get_user_by_username(username):
 def get_clients():
     connection = connect()
     cursor = connection.cursor()
-    select_query = "SELECT * FROM clients ORDER BY client_id ASC"
+    select_query = "SELECT id, username, name, email, phone, role FROM users ORDER BY id ASC"
     cursor.execute(select_query)
     records = []
     for row in cursor.fetchall():
         record = {
-            'client_email': row[0],
-            'client_id': row[1],
-            'client_name': row[2],
-            'client_phone': row[3]
+            'id': row[0],
+            'username': row[1],
+            'name': row[2],
+            'email': row[3],
+            'phone': row[4],
+            'role': row[5]
+
         }
         records.append(record)
 
@@ -115,7 +118,7 @@ def get_client_cases(client_email):
     cursor.execute(select_query)
     records = cursor.fetchall()
 
-    select_client_name = "SELECT client_name FROM clients WHERE clients.client_email = '" + client_email + "';"
+    select_client_name = "SELECT name FROM users WHERE users.email = '" + client_email + "';"
     cursor.execute(select_client_name)
     client_name = cursor.fetchone()
 
@@ -177,7 +180,7 @@ def get_client_details(client_id):
     conn = connect()
     cursor = conn.cursor()
 
-    query = """ SELECT * FROM clients WHERE client_id = %s; """
+    query = """ SELECT id, username, name, email, phone, role FROM users WHERE id = %s; """
 
     cursor.execute(query, (client_id,))
     client_details = cursor.fetchall()
@@ -201,7 +204,7 @@ def update_user(user_id, **kwargs):
                 username = '{kwargs['username']}',
                 email = '{kwargs['email']}',
                 phone = '{kwargs['phone']}',
-
+                name = '{kwargs['name']}',
                 role = {kwargs['role']}
             WHERE id = {user_id};
         """
