@@ -3,10 +3,10 @@
 import requests
 import json
 
-with open("jm/monday_api.txt", "r") as f:
+with open("monday_api.txt", "r") as f:
     api_key = f.readline().strip()
 
-with open("jm/monday_board_id.txt", "r") as f:
+with open("monday_board_id.txt", "r") as f:
     board_id = f.readline().strip()
 
 apiUrl = "https://api.monday.com/v2"
@@ -18,7 +18,7 @@ data = {"query" : query}
 r = requests.post(url=apiUrl, json=data, headers=headers)
 
 if r.status_code == 200:
-    with open("jm/results.txt", "w") as f:
+    with open("results.txt", "w") as f:
      f.write(f"{'Name':<15} {'Case Number':<15} {'Phone':<15} {'Email':<25} {'Drop off':<15} {'Case Status':<15} {'Work Progress':<15}\n")
      f.write("=" * 120)
      f.write("\n")
@@ -44,7 +44,7 @@ if r.status_code == 200:
                 case_status = column["text"] if column["text"] else "None"
             if column["title"] == "Work Progress":
                 work_progress = column["text"] if column["text"] else "None"
-        with open("jm/results.txt", "a") as f:
+        with open("results.txt", "a") as f:
            f.write(f"{item['name'][:15]:<15} {case_number[:15].ljust(15)} {phone_number[:15].ljust(15)} {email[:25].ljust(25)} {drop_off[:15].ljust(15)} {case_status[:15].ljust(15)} {work_progress[:15].ljust(15)}\n")
 else:
     print(f"Error: {r.status_code} - {r.text}")
