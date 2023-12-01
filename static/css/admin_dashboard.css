@@ -160,6 +160,10 @@ a:hover {
     margin-right: 100px;
 }
 
+#create-case-btn {
+    margin-left: 40px;
+}
+
 /* .details-btn {
     width: 70px;
     margin-right: 100px;
