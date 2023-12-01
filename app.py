@@ -118,21 +118,19 @@ def admin_dashboard():
         return redirect(url_for('user_dashboard'))
     # return render_template('admin_dashboard.html')
     return render_template('displayAdmin.html', client_case_data=client_case_data, records=clients_records, cases=reversed(cases))
-    # client_case_data = database_operations.get_client_cases(current_user.email)
-    # if not current_user.role:
-    #     flash('Access Denied: You are not an admin.', 'error')
-    #     return redirect(url_for('user_dashboard'))
-    # return render_template('displayAdmin.html', client_case_data=client_case_data)
 
 
-@app.route('/clients')
-@login_required
-def get_clients():
-    if not current_user.role:
-        flash('Access Denied: You are not an admin.', 'error')
-        return redirect(url_for('user_dashboard'))
-    clients_records = database_operations.get_clients()
-    return render_template('clients.html', records=clients_records)
+
+# This has been added to main admin page in admin_dashboard route
+
+# @app.route('/clients')
+# @login_required
+# def get_clients():
+#     if not current_user.role:
+#         flash('Access Denied: You are not an admin.', 'error')
+#         return redirect(url_for('user_dashboard'))
+#     clients_records = database_operations.get_clients()
+#     return render_template('clients.html', records=clients_records)
 
 
 @app.route('/client_cases')
@@ -148,15 +146,17 @@ def get_client_cases():
     return render_template('client_cases.html', client_case_data=client_case_data)
 
 
-@app.route('/cases')
-@login_required
-def display_cases():
-    if not current_user.role:
-        flash('Access Denied: You are not an admin.', 'error')
-        return redirect(url_for('user_dashboard'))
-    cases = database_operations.get_all_cases()
+# This has been added to main admin page in admin_dashboard route
 
-    return render_template('cases.html', cases=reversed(cases))
+# @app.route('/cases')
+# @login_required
+# def display_cases():
+#     if not current_user.role:
+#         flash('Access Denied: You are not an admin.', 'error')
+#         return redirect(url_for('user_dashboard'))
+#     cases = database_operations.get_all_cases()
+
+#     return render_template('cases.html', cases=reversed(cases))
 
 
 @app.route('/case_details_admin')
