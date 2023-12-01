@@ -65,6 +65,7 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    print("Hello")
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -77,6 +78,7 @@ def login():
             login_user(user_obj)
             flash('Login successful.', 'success')
             if role:
+                print(url_for('admin_dashboard'))
                 return redirect(url_for('admin_dashboard'))
             else:
                 return redirect(url_for('user_dashboard'))
@@ -91,7 +93,7 @@ def login():
 def user_dashboard():
     client_case_data = database_operations.get_client_cases(current_user.email)
     # return render_template('user_dashboard.html', client_case_data=client_case_data)
-    return render_template('display.html', client_case_data=client_case_data)
+    return render_template('user_dashboard.html', client_case_data=client_case_data)
 
 
 @app.route('/logout')
@@ -110,14 +112,14 @@ def index():
 @app.route('/admin_dashboard')
 @login_required
 def admin_dashboard():
-    client_case_data = database_operations.get_client_cases(current_user.email)
-    clients_records = database_operations.get_clients()
-    cases = database_operations.get_all_cases()
     if not current_user.role:
         flash('Access Denied: You are not an admin.', 'error')
         return redirect(url_for('user_dashboard'))
+    client_case_data = database_operations.get_client_cases(current_user.email)
+    clients_records = database_operations.get_clients()
+    cases = database_operations.get_all_cases()
     # return render_template('admin_dashboard.html')
-    return render_template('displayAdmin.html', client_case_data=client_case_data, records=clients_records, cases=reversed(cases))
+    return render_template('admin_dashboard.html', client_case_data=client_case_data, records=clients_records, cases=reversed(cases))
 
 
 
