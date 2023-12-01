@@ -238,3 +238,13 @@ a:hover {
 
 /* tables */
 
+.view-details-btn {
+    background-color: rgb(37, 150, 190);
+    color:white;
+}
+
+.edit-credentials-btn {
+    background-color: rgb(0, 32, 84);
+    --webkit-text-fill-color: white;
+    color: white;
+}

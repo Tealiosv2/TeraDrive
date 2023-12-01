@@ -240,7 +240,7 @@ def update_case():
 
     database_operations.update_case(**updated_data)
 
-    return redirect(url_for('display_cases'))
+    return redirect(url_for('admin_dashboard'))
 
 
 # @app.route('/get_client_details')
@@ -322,10 +322,10 @@ def confirm_delete_case():
     if case_id:
 
         database_operations.delete_case(case_id)
-        return redirect(url_for('display_cases'))
+        return redirect(url_for('admin_dashboard'))
     else:
         # Handle invalid case_id
-        return redirect(url_for('display_cases'))
+        return redirect(url_for('admin_dashboard'))
 
 
 @app.route('/delete_case_confirmation')
@@ -423,7 +423,7 @@ def create_case_post():
 
         database_operations.create_case(replace_empty_with_none(case))
 
-        return redirect(url_for('display_cases'))
+        return redirect(url_for('admin_dashboard'))
 
 
 def get_formatted_date_from_form(form, day_field, month_field, year_field, date_format="%Y-%m-%d"):
