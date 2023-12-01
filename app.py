@@ -78,7 +78,6 @@ def login():
             login_user(user_obj)
             flash('Login successful.', 'success')
             if role:
-                print(url_for('admin_dashboard'))
                 return redirect(url_for('admin_dashboard'))
             else:
                 return redirect(url_for('user_dashboard'))
@@ -300,7 +299,7 @@ def edit_credentials():
         'role': role
     }
     database_operations.update_user_client(**update_data)
-    return redirect(url_for('get_clients'))
+    return redirect(url_for('admin_dashboard'))
 
 
 @app.route('/delete_case')
