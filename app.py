@@ -90,7 +90,8 @@ def login():
 @login_required
 def user_dashboard():
     client_case_data = database_operations.get_client_cases(current_user.email)
-    return render_template('user_dashboard.html', client_case_data=client_case_data)
+    # return render_template('user_dashboard.html', client_case_data=client_case_data)
+    return render_template('display.html', client_case_data=client_case_data)
 
 
 @app.route('/logout')
@@ -109,10 +110,19 @@ def index():
 @app.route('/admin_dashboard')
 @login_required
 def admin_dashboard():
+    client_case_data = database_operations.get_client_cases(current_user.email)
+    clients_records = database_operations.get_clients()
+    cases = database_operations.get_all_cases()
     if not current_user.role:
         flash('Access Denied: You are not an admin.', 'error')
         return redirect(url_for('user_dashboard'))
-    return render_template('admin_dashboard.html')
+    # return render_template('admin_dashboard.html')
+    return render_template('displayAdmin.html', client_case_data=client_case_data, records=clients_records, cases=reversed(cases))
+    # client_case_data = database_operations.get_client_cases(current_user.email)
+    # if not current_user.role:
+    #     flash('Access Denied: You are not an admin.', 'error')
+    #     return redirect(url_for('user_dashboard'))
+    # return render_template('displayAdmin.html', client_case_data=client_case_data)
 
 
 @app.route('/clients')
@@ -133,6 +143,8 @@ def get_client_cases():
         return redirect(url_for('user_dashboard'))
     client_email = request.args.get('client_email')
     client_case_data = database_operations.get_client_cases(client_email)
+    print(client_email)
+    print(client_case_data)
     return render_template('client_cases.html', client_case_data=client_case_data)
 
 

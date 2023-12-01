@@ -139,13 +139,13 @@ a:hover {
     padding-top: 40px;
 }
 
-#case-details-nav {
+/* #case-details-nav {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding-left: 40px;
     padding-top: 40px;
-}
+} */
 
 #clients-nav {
     display: flex;
@@ -160,10 +160,10 @@ a:hover {
     margin-right: 100px;
 }
 
-.details-btn {
+/* .details-btn {
     width: 70px;
     margin-right: 100px;
-}
+} */
 
 /* Dropdown stuff */
 
