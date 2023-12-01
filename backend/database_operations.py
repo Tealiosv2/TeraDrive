@@ -1,5 +1,5 @@
 import psycopg2
-
+#Question for Wyman: Shouldn't the queries use placeholders instead of string concatenation to prevent SQL injection?
 
 def connect():
     try:

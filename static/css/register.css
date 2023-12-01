@@ -1,5 +1,7 @@
-
 /*Full page */
+.split-screen, .left, .right {
+    overflow: hidden;
+}
 
 .split-screen {
     display: flex;
