@@ -3,6 +3,8 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from werkzeug.security import generate_password_hash, check_password_hash
 from backend import database_operations
 from datetime import datetime
+import schedule
+import time
 
 app = Flask(__name__)
 
@@ -35,6 +37,8 @@ def load_user(user_id):
 
 
 registered_users = {}
+
+schedule.every(24).hours.do(database_operations.create_from_monday())
 
 
 @app.route('/register', methods=['GET', 'POST'])
