@@ -11,10 +11,10 @@ import database_operations
 # records = database_operations.get_all_cases()
 
 #test get_client_details
-records = database_operations.get_client_details(3)
+# records = database_operations.get_client_details(3)
 
 #test get by user
-records = database_operations.get_user_by_username('user')
+# records = database_operations.get_user_by_username('user')
 
 #test update
 # updates = {
@@ -25,8 +25,10 @@ records = database_operations.get_user_by_username('user')
 #     'phone': '123456789'
 # }
 #
-# database_operations.update_user_client(**updates)
-
+# database_operations.update_user_client(**updates
+database_operations.create_from_monday()
+# records = database_operations.fetch_monday()
+records = database_operations.get_all_cases()
 print(records)
 
 

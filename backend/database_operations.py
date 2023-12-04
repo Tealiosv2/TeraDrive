@@ -1,4 +1,6 @@
 import psycopg2
+import requests
+import json
 #Question for Wyman: Shouldn't the queries use placeholders instead of string concatenation to prevent SQL injection?
 
 def connect():
@@ -216,6 +218,100 @@ def update_user(user_id, **kwargs):
     cursor.close()
     conn.close()
 
+def fetch_monday():
+    with open("jm\monday_api.txt", "r") as f:
+        api_key = f.readline().strip()
+
+    with open("jm\monday_board_id.txt", "r") as f:
+        board_id = f.readline().strip()
+
+    apiUrl = "https://api.monday.com/v2"
+    headers = {"Authorization" : api_key}
+
+    query = "{boards(ids:" + board_id + ") { name id description items { name column_values{title id type text } } } }"
+    data = {"query" : query}
+
+    r = requests.post(url=apiUrl, json=data, headers=headers)
+    monday_data = []
+    
+    if r.status_code == 200:
+        response = r.json()
+        for i in range(0, len(response["data"]["boards"][0]["items"])):
+            data = response["data"]["boards"][0]["items"][i]
+            new_dict = {'name': data['name']}
+            new_dict.update({item['id']: item['text'] for item in data['column_values']})
+            temp = format_dict(**new_dict)
+            monday_data.append(temp) 
+        return monday_data
+    else:
+        print(f"Error: {r.status_code} - {r.text}")
+
+def format_dict(**dict):
+    perms = None
+
+    if dict['permission_to_open'] == 'yes':
+        perms = True
+    
+    if dict['email'] == '':
+        placeholder = 'test@test.test'
+    else:
+        placeholder = dict['email']
+
+    case = (
+        placeholder,
+        dict['drop_off'],
+        dict['case_status'],
+        dict['work_progress'],
+        dict['malfunction'],
+        dict['quote'],
+        dict['type_of_device'],
+        dict['important_folders'],
+        dict['size'],
+        perms,
+        dict['date_received'],
+        dict['date_quote_approved'],
+        dict['date_completed'],
+        dict['date_finalized'],
+        dict['referred_by'],
+        dict['notes']
+    )
+
+    # Replace empty strings with None
+    case = tuple(None if value == '' else value for value in case)
+
+    return case
+
+
+def clear_cases():
+    conn = connect()
+    cursor = conn.cursor()
+
+    delete_query = f"""
+        DELETE FROM cases;
+    """
+
+    cursor.execute(delete_query)
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def create_from_monday():
+    #list of monday data
+    monday_data = fetch_monday()
+    clear_cases()
+    conn = connect()
+    cursor = conn.cursor()
+    insert_query = """
+        INSERT INTO cases (client_email, case_drop_off, case_status, case_work_progress,
+            case_malfunction, case_quote, case_device_type, case_important_folders,
+            case_size, case_permissions, case_date_recieved, case_date_quote_approved,
+            case_completed_date, case_date_finalized, case_referred_by, case_notes)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+            """
+    cursor.executemany(insert_query, monday_data)
+    conn.commit()
+    cursor.close()
+    conn.close()
 
 def create_case(cases_data):
     conn = connect()
