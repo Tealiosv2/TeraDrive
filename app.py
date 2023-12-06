@@ -42,8 +42,7 @@ registered_users = {}
 
 scheduled_job = functools.partial(database_operations.create_from_monday)
 
-schedule.every(24).hours.do(database_operations.create_from_monday())
-
+schedule.every(24).hours.do(scheduled_job)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
