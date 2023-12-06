@@ -1,0 +1,6 @@
+Flask==2.3.2
+flask-login==0.6.3
+Werkzeug==2.3.3
+psycopg2==2.9.9
+schedule==1.2.1
+requests==2.31.0
