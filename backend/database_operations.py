@@ -2,25 +2,34 @@ import psycopg2
 import requests
 import json
 import os
+from urllib.parse import urlparse
 #Question for Wyman: Shouldn't the queries use placeholders instead of string concatenation to prevent SQL injection?
 
 def connect():
     try:
+        # Get the database URL from environment variables
+        db_url = os.environ.get('DATABASE_URL')
+
+        if db_url is None:
+            # If DATABASE_URL is not set, construct the URL using individual parameters
+            db_url = f"postgresql://{os.environ.get('DATABASE_USER')}:{os.environ.get('DATABASE_PASSWORD')}@{os.environ.get('DATABASE_HOST')}:{os.environ.get('DATABASE_PORT')}/{os.environ.get('DATABASE_DATABASE')}"
+
+        # Parse the URL to extract connection parameters
+        url_parts = urlparse(db_url)
+
         connection = psycopg2.connect(
-            host=os.environ.get('DATABASE_HOST', 'localhost'),
-            database=os.environ.get('DATABASE_DATABASE', 'teradrive'),
-            user=os.environ.get('DATABASE_USER', 'postgres'),
-            password=os.environ.get('DATABASE_PASSWORD', 'mysecretpassword'),
-            port=os.environ.get('DATABASE_PORT', '5432')
+            host=url_parts.hostname,
+            database=url_parts.path[1:],
+            user=url_parts.username,
+            password=url_parts.password,
+            port=url_parts.port
         )
 
         # Create a cursor object to interact with the database
-
         return connection
 
     except psycopg2.Error as e:
         print("Error connecting to the database:", e)
-
 
 def create_user(username, name, email, password_hash, phone):
     connection = connect()
