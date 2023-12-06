@@ -12,25 +12,17 @@ def connect():
         db_url = os.environ.get('DATABASE_URL')
 
         if db_url is None:
-            # If DATABASE_URL is not set, construct the URL using individual parameters
-            db_url = f"postgresql://{os.environ.get('DATABASE_USER')}:{os.environ.get('DATABASE_PASSWORD')}@{os.environ.get('DATABASE_HOST')}:{os.environ.get('DATABASE_PORT')}/{os.environ.get('DATABASE_DATABASE')}"
+            print("DATABASE_URL environment variable is not set.")
+            return None
 
-        # Parse the URL to extract connection parameters
-        url_parts = urlparse(db_url)
+        # Connect to the database using the URL
+        connection = psycopg2.connect(db_url)
 
-        connection = psycopg2.connect(
-            host=url_parts.hostname,
-            database=url_parts.path[1:],
-            user=url_parts.username,
-            password=url_parts.password,
-            port=url_parts.port
-        )
-
-        # Create a cursor object to interact with the database
         return connection
 
     except psycopg2.Error as e:
         print("Error connecting to the database:", e)
+        return None
 
 def create_user(username, name, email, password_hash, phone):
     connection = connect()
