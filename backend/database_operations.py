@@ -12,17 +12,25 @@ def connect():
         db_url = os.environ.get('DATABASE_URL')
 
         if db_url is None:
-            print("DATABASE_URL environment variable is not set.")
-            return None
+            # If DATABASE_URL is not set, construct the URL using individual parameters
+            db_url = f"postgresql://{os.environ.get('DATABASE_USER')}:{os.environ.get('DATABASE_PASSWORD')}@{os.environ.get('DATABASE_HOST')}:{os.environ.get('DATABASE_PORT')}/{os.environ.get('DATABASE_DATABASE')}"
 
-        # Connect to the database using the URL
-        connection = psycopg2.connect(db_url)
+        # Parse the URL to extract connection parameters
+        url_parts = urlparse(db_url)
 
+        connection = psycopg2.connect(
+            host=url_parts.hostname,
+            database=url_parts.path[1:],
+            user=url_parts.username,
+            password=url_parts.password,
+            port=url_parts.port
+        )
+
+        # Create a cursor object to interact with the database
         return connection
 
     except psycopg2.Error as e:
         print("Error connecting to the database:", e)
-        return None
 
 def create_user(username, name, email, password_hash, phone):
     connection = connect()
@@ -53,7 +61,7 @@ def get_user_by_email(email):
     user = None
 
     try:
-        with psycopg2.connect('postgresql://postgres:mysecretpassword@localhost:5432/teradrive') as connection:
+        with psycopg2.connect(os.environ.get('DATABASE_URL')) as connection:
             with connection.cursor() as cursor:
                 cursor.execute(select_query, (email,))
                 user = cursor.fetchone()
@@ -68,7 +76,7 @@ def get_user_by_id(user_id):
     user = None
 
     try:
-        with psycopg2.connect('postgresql://postgres:mysecretpassword@localhost:5432/teradrive') as connection:
+        with psycopg2.connect(os.environ.get('DATABASE_URL')) as connection:
             with connection.cursor() as cursor:
                 cursor.execute(select_query, (user_id,))
                 user = cursor.fetchone()
@@ -83,7 +91,7 @@ def get_user_by_username(username):
     user = None
 
     try:
-        with psycopg2.connect('postgresql://postgres:mysecretpassword@localhost:5432/teradrive') as connection:
+        with psycopg2.connect(os.environ.get('DATABASE_URL')) as connection:
             with connection.cursor() as cursor:
                 cursor.execute(select_query, (username,))
                 user = cursor.fetchone()
