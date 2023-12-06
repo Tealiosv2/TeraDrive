@@ -6,6 +6,7 @@ from datetime import datetime
 import schedule
 import time
 import os
+import functools
 
 app = Flask(__name__)
 
@@ -38,6 +39,8 @@ def load_user(user_id):
 
 
 registered_users = {}
+
+scheduled_job = functools.partial(database_operations.create_from_monday)
 
 schedule.every(24).hours.do(database_operations.create_from_monday())
 
