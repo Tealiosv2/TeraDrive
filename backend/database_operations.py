@@ -8,10 +8,11 @@ def connect():
     try:
         connection = psycopg2.connect(
             host=os.environ.get('DATABASE_HOST', 'localhost'),
-            database=os.environ.get('DB_NAME', 'teradrive'),
-            user="postgres",
-            password="mysecretpassword",
-            port=5432)
+            database=os.environ.get('DATABASE_DATABASE', 'teradrive'),
+            user=os.environ.get('DATABASE_USER', 'postgres'),
+            password=os.environ.get('DATABASE_PASSWORD', 'mysecretpassword'),
+            port=os.environ.get('DATABASE_PORT', '5432')
+        )
 
         # Create a cursor object to interact with the database
 
