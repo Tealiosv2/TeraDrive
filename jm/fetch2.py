@@ -1,10 +1,10 @@
 import requests
 import json
 
-with open("jm\monday_api.txt", "r") as f:
+with open("jm/monday_api.txt", "r") as f:
     api_key = f.readline().strip()
 
-with open("jm\monday_board_id.txt", "r") as f:
+with open("jm/monday_board_id.txt", "r") as f:
     board_id = f.readline().strip()
 
 apiUrl = "https://api.monday.com/v2"
