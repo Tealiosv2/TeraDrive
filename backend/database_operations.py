@@ -1,13 +1,14 @@
 import psycopg2
 import requests
 import json
+import os
 #Question for Wyman: Shouldn't the queries use placeholders instead of string concatenation to prevent SQL injection?
 
 def connect():
     try:
         connection = psycopg2.connect(
-            host="localhost",
-            database="teradrive",
+            host=os.environ.get('DATABASE_HOST', 'localhost'),
+            database=os.environ.get('DB_NAME', 'teradrive'),
             user="postgres",
             password="mysecretpassword",
             port=5432)
