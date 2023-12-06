@@ -1,4 +1,4 @@
-import database_operations
+# import database_operations
 
 
 #test get clients
@@ -26,9 +26,9 @@ import database_operations
 # }
 #
 # database_operations.update_user_client(**updates
-database_operations.create_from_monday()
-# records = database_operations.fetch_monday()
-records = database_operations.get_all_cases()
-print(records)
+# database_operations.create_from_monday()
+# # records = database_operations.fetch_monday()
+# records = database_operations.get_all_cases()
+# print(records)
 
 

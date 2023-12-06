@@ -5,11 +5,12 @@ from backend import database_operations
 from datetime import datetime
 import schedule
 import time
+import os
 
 app = Flask(__name__)
 
 # change to an environment variable
-app.secret_key = 'your_secret_key'
+app.secret_key = os.environ.get('SECRET_KEY')
 
 login_manager = LoginManager()
 login_manager.init_app(app)
