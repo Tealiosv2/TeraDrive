@@ -3,6 +3,7 @@ import requests
 import json
 import os
 from urllib.parse import urlparse
+import functools
 #Question for Wyman: Shouldn't the queries use placeholders instead of string concatenation to prevent SQL injection?
 
 def connect():
