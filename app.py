@@ -16,7 +16,7 @@ app.secret_key = os.environ.get('SECRET_KEY')
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-
+# Define a User class for Flask-Login
 class User(UserMixin):
     def __init__(self, id, username, name, email, phone, role):
         self.id = id
@@ -26,7 +26,7 @@ class User(UserMixin):
         self.role = role
         self.email = email
 
-
+# Load user function for Flask-Login
 @login_manager.user_loader
 def load_user(user_id):
     # Load a user from the database based on user_id
@@ -37,15 +37,17 @@ def load_user(user_id):
     else:
         return None
 
-
+# Global variables
 registered_users = {}
-
 scheduled_job = functools.partial(database_operations.create_from_monday)
-
 schedule.every(24).hours.do(scheduled_job)
 
+# Routes for user registration and login
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+    Handles user registration.
+    """
     if request.method == 'POST':
         username = request.form['username']
         name = request.form['name']
@@ -72,7 +74,9 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    print("Hello")
+    """
+    Handles user login.
+    """
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -93,39 +97,16 @@ def login():
 
     return render_template('login.html')
 
-
+# Routes for user and admin dashboards
 @app.route('/user_dashboard')
 @login_required
 def user_dashboard():
+    """
+    Displays the user dashboard.
+    """
     client_case_data = database_operations.get_client_cases(current_user.email)
     # return render_template('user_dashboard.html', client_case_data=client_case_data)
     return render_template('user_dashboard.html', client_case_data=client_case_data)
-
-
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    flash('You have been logged out.', 'success')
-    return redirect(url_for('login'))
-
-
-@app.route('/')
-def index():
-    return redirect(url_for('login'))
-
-
-@app.route('/admin_dashboard')
-@login_required
-def admin_dashboard():
-    if not current_user.role:
-        flash('Access Denied: You are not an admin.', 'error')
-        return redirect(url_for('user_dashboard'))
-    client_case_data = database_operations.get_client_cases(current_user.email)
-    clients_records = database_operations.get_clients()
-    cases = database_operations.get_all_cases()
-    # return render_template('admin_dashboard.html')
-    return render_template('admin_dashboard.html', client_case_data=client_case_data, records=clients_records, cases=reversed(cases))
 
 @app.route('/client_cases')
 @login_required
@@ -139,9 +120,28 @@ def get_client_cases():
     print(client_case_data)
     return render_template('client_cases.html', client_case_data=client_case_data)
 
+@app.route('/admin_dashboard')
+@login_required
+def admin_dashboard():
+    """
+    Displays the admin dashboard.
+    """
+    if not current_user.role:
+        flash('Access Denied: You are not an admin.', 'error')
+        return redirect(url_for('user_dashboard'))
+    client_case_data = database_operations.get_client_cases(current_user.email)
+    clients_records = database_operations.get_clients()
+    cases = database_operations.get_all_cases()
+    # return render_template('admin_dashboard.html')
+    return render_template('admin_dashboard.html', client_case_data=client_case_data, records=clients_records, cases=reversed(cases))
+
+# Routes for case details and management
 @app.route('/case_details_admin')
 @login_required
 def display_case_details_admin():
+    """
+    Displays case details for admin.
+    """
     if not current_user.role:
         flash('Access Denied: You are not an admin.', 'error')
         return redirect(url_for('user_dashboard'))
@@ -155,10 +155,12 @@ def display_case_details_admin():
 
     return render_template('case_details_admin.html', case_details=case_data)
 
-
 @app.route('/update_case_form', methods=['GET', 'POST'])
 @login_required
 def update_case_form():
+    """
+    Displays the form to update a case.
+    """
     case_id = request.args.get('case_id')
     case_statuses = ["None", "Confirmed", "Declined", "Quote Sent", "Evaluating", "En Route", "Closed",
                      "Evaluation Complete",
@@ -188,10 +190,12 @@ def update_case_form():
     return render_template('update_case.html', case_details=case_data, progresses=case_progresses,
                            statuses=case_statuses, date_values=date_values)
 
-
 @app.route('/update-case', methods=['GET', 'POST'])
 @login_required
 def update_case():
+    """
+    Handles updating a case.
+    """
     if not current_user.role:
         flash('Access Denied: You are not an admin.', 'error')
         return redirect(url_for('user_dashboard'))
@@ -221,9 +225,13 @@ def update_case():
 
     return redirect(url_for('admin_dashboard'))
 
+# Routes for user and admin management
 @app.route('/edit_credentials_form')
 @login_required
 def edit_credentials_form():
+    """
+    Displays the form to edit user credentials.
+    """
     if not current_user.role:
         flash('Access Denied: You are not an admin.', 'error')
         return redirect(url_for('user_dashboard'))
@@ -232,10 +240,12 @@ def edit_credentials_form():
 
     return render_template('edit_credentials_form.html', user_info=user_details)
 
-
 @app.route('/edit_credentials', methods=['POST'])
 @login_required
 def edit_credentials():
+    """
+    Handles editing user credentials.
+    """
     if not current_user.role:
         flash('Access Denied: You are not an admin.', 'error')
         return redirect(url_for('user_dashboard'))
@@ -268,20 +278,25 @@ def edit_credentials():
     database_operations.update_user_client(**update_data)
     return redirect(url_for('admin_dashboard'))
 
-
+# Other routes for case management
 @app.route('/delete_case')
 @login_required
 def delete_case():
+    """
+    Displays the confirmation page for deleting a case.
+    """
     if not current_user.role:
         flash('Access Denied: You are not an admin.', 'error')
         return redirect(url_for('user_dashboard'))
     case_id = request.args.get('case_id')
     return render_template('delete_confirmation.html', case_id=case_id)
 
-
 @app.route('/confirm_delete_case', methods=['POST'])
 @login_required
 def confirm_delete_case():
+    """
+    Handles confirming the deletion of a case.
+    """
     if not current_user.role:
         flash('Access Denied: You are not an admin.', 'error')
         return redirect(url_for('user_dashboard'))
@@ -293,8 +308,7 @@ def confirm_delete_case():
     else:
         # Handle invalid case_id
         return redirect(url_for('admin_dashboard'))
-
-
+    
 @app.route('/delete_case_confirmation')
 @login_required
 def delete_case_confirmation():
@@ -304,10 +318,24 @@ def delete_case_confirmation():
     case_id = request.args.get('case_id')
     return render_template('delete_confirmation.html', case_id=case_id)
 
+def get_formatted_date_from_form(form, day_field, month_field, year_field, date_format="%Y-%m-%d"):
+    day = int(form[day_field])
+    month = int(form[month_field])
+    year = int(form[year_field])
+    date_object = datetime(year, month, day)
+    return date_object.strftime(date_format)
 
+
+def replace_empty_with_none(input_tuple):
+    return tuple(None if element == '' else element for element in input_tuple)
+   
+# Additional routes for case details and creation 
 @app.route('/case_details_user')
 @login_required
 def display_case_details_user():
+    """
+    Displays case details for a user.
+    """
     case_id = request.args.get('case_id')
 
     case_details = database_operations.get_case_details(case_id)
@@ -319,19 +347,13 @@ def display_case_details_user():
     else:
         flash('Access Denied: You do not have access to this case.', 'error')
         return redirect(url_for('user_dashboard'))
-
-
-'''
-client_email, case_drop_off, case_status, case_work_progress,
-        case_malfunction, case_quote, case_device_type, case_important_folders,
-        case_size, case_permissions, case_date_recieved, case_date_quote_approved,
-        case_completed_date, case_date_finalized, case_referred_by, case_notes
-'''
-
-
+    
 @app.route('/create_case_form', methods=['GET', 'POST'])
 @login_required
 def create_case_form():
+    """
+    Displays the form to create a new case.
+    """
     if not current_user.role:
         flash('Access Denied: You are not an admin.', 'error')
         return redirect(url_for('user_dashboard'))
@@ -351,7 +373,6 @@ def create_case_form():
     return render_template('create_case.html', clients=database_operations.get_clients(), statuses=case_statuses,
                            progresses=case_progresses, years=years, months=get_months(),
                            days=get_days())
-
 
 @app.route('/create-case', methods=['GET', 'POST'])
 @login_required
@@ -391,18 +412,22 @@ def create_case_post():
         database_operations.create_case(replace_empty_with_none(case))
 
         return redirect(url_for('admin_dashboard'))
+    
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out.', 'success')
+    return redirect(url_for('login'))
 
 
-def get_formatted_date_from_form(form, day_field, month_field, year_field, date_format="%Y-%m-%d"):
-    day = int(form[day_field])
-    month = int(form[month_field])
-    year = int(form[year_field])
-    date_object = datetime(year, month, day)
-    return date_object.strftime(date_format)
+@app.route('/')
+def index():
+    return redirect(url_for('login'))
 
 
-def replace_empty_with_none(input_tuple):
-    return tuple(None if element == '' else element for element in input_tuple)
+
+
 
 
 def get_days():
