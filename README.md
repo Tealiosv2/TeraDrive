@@ -1,14 +1,6 @@
 # TeraDrive
 
-docker setup:<br>
-docker run --name TeraDrive -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:5432 postgres<br>
-docker exec -it TeraDrive psql -U postgres<br>
-CREATE DATABASE teradrive;<br>
-
-database setup:<br>
-RUN:<br>
-<b>initialize_database.py</b><br>
-in package database_stuff
+Our project features a system for users to view their hard drive recovery status updates. It also allows admin users to manage users and cases with CRUD. 
 
 
 
