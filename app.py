@@ -153,20 +153,6 @@ def get_client_cases():
     print(client_case_data)
     return render_template('client_cases.html', client_case_data=client_case_data)
 
-
-# This has been added to main admin page in admin_dashboard route
-
-# @app.route('/cases')
-# @login_required
-# def display_cases():
-#     if not current_user.role:
-#         flash('Access Denied: You are not an admin.', 'error')
-#         return redirect(url_for('user_dashboard'))
-#     cases = database_operations.get_all_cases()
-
-#     return render_template('cases.html', cases=reversed(cases))
-
-
 @app.route('/case_details_admin')
 @login_required
 def display_case_details_admin():
@@ -248,18 +234,6 @@ def update_case():
     database_operations.update_case(**updated_data)
 
     return redirect(url_for('admin_dashboard'))
-
-
-# @app.route('/get_client_details')
-# @login_required
-# def get_client_details():
-#     if not current_user.role:
-#         flash('Access Denied: You are not an admin.', 'error')
-#         return redirect(url_for('user_dashboard'))
-#     client_id = request.args.get('client_id')
-#     client_details = database_operations.get_client_details(client_id)
-#     return render_template('client_details.html', client_details=client_details)
-
 
 @app.route('/edit_credentials_form')
 @login_required
