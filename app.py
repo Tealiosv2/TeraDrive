@@ -127,20 +127,6 @@ def admin_dashboard():
     # return render_template('admin_dashboard.html')
     return render_template('admin_dashboard.html', client_case_data=client_case_data, records=clients_records, cases=reversed(cases))
 
-
-
-# This has been added to main admin page in admin_dashboard route
-
-# @app.route('/clients')
-# @login_required
-# def get_clients():
-#     if not current_user.role:
-#         flash('Access Denied: You are not an admin.', 'error')
-#         return redirect(url_for('user_dashboard'))
-#     clients_records = database_operations.get_clients()
-#     return render_template('clients.html', records=clients_records)
-
-
 @app.route('/client_cases')
 @login_required
 def get_client_cases():
